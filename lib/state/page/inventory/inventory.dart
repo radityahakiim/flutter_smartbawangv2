@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
-import 'package:flutter_smartbawangv2/state/page/cari_petani.dart';
-import 'package:flutter_smartbawangv2/state/page/inventory_materials/inventory_itembox.dart';
+import 'package:flutter_smartbawangv2/state/materials/searchbox.dart';
+import 'package:flutter_smartbawangv2/state/page/cari_user/cari_user.dart';
+import 'package:flutter_smartbawangv2/state/page/market_inventory_materials/market_inventory_itembox.dart';
 
 class InventoryPage extends StatefulWidget {
   const InventoryPage({super.key});
@@ -15,6 +16,7 @@ class _InventoryPageState extends State<InventoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 68,
         centerTitle: true,
         backgroundColor: AppTheme.primaryColor,
         shape: RoundedRectangleBorder(
@@ -30,20 +32,6 @@ class _InventoryPageState extends State<InventoryPage> {
             fontWeight: FontWeight.w700,
           ),
         ),
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(40),
-          child: Container(
-            height: 32,
-            margin: EdgeInsets.all(10),
-            decoration: ShapeDecoration(
-              color: Color(0xFFEFEFEF),
-              shape: RoundedRectangleBorder(
-                side: BorderSide(width: 1, color: Colors.white),
-                borderRadius: BorderRadius.circular(18),
-              ),
-            ),
-          ),
-        ),
       ),
       body: SafeArea(
         child: Padding(
@@ -51,6 +39,8 @@ class _InventoryPageState extends State<InventoryPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              SizedBox(height: 10),
+              CustSearchBox(),
               SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -68,7 +58,7 @@ class _InventoryPageState extends State<InventoryPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CariPetaniPage(),
+                          builder: (context) => CariUser(),
                         ),
                       );
                     },
@@ -134,15 +124,15 @@ class _InventoryPageState extends State<InventoryPage> {
               ),
               SizedBox(height: 8),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  InventoryItemBox(
+                  MarketInvItemBox(
                     imageasset: 'assets/bawang.png',
                     title: "Bawang Sembrani",
                     tanggal: "31 Dec 2021",
                     harga: "Rp12.000",
                   ),
-                  InventoryItemBox(
+                  MarketInvItemBox(
                     imageasset: 'assets/bawang.png',
                     title: "Bawang Sembrani",
                     tanggal: "31 Dec 2021",

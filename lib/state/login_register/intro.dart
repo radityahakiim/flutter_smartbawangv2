@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_smartbawangv2/state/login_register/states/completedregpage.dart';
 import 'package:flutter_smartbawangv2/state/login_register/states/intropage.dart';
 import 'package:flutter_smartbawangv2/state/login_register/states/loginpage.dart';
 import 'package:flutter_smartbawangv2/state/login_register/states/registerpage.dart';
 import 'package:flutter_smartbawangv2/state/login_register/states/roleformpage.dart';
 import 'package:flutter_smartbawangv2/state/login_register/states/selectrolepage.dart';
+import 'package:flutter_smartbawangv2/state/login_register/states/verifphonepage.dart';
 import 'package:flutter_smartbawangv2/state/logo.dart';
 
 class IntroPage extends StatefulWidget {
@@ -18,7 +20,7 @@ class _IntroPageState extends State<IntroPage> {
 
   void _goToNextPage() {
     setState(() {
-      _currentPage = (_currentPage + 1) % 5;
+      _currentPage = (_currentPage + 1) % 7;
     });
   }
 
@@ -40,9 +42,19 @@ class _IntroPageState extends State<IntroPage> {
           onPrev: _gotoPrevPage,
         );
       case 3:
-        return SelectRolePage(onNext: _goToNextPage);
+        return SelectRolePage(
+          onNext: _goToNextPage,
+          onPrev: _gotoPrevPage,
+        );
       case 4:
-        return RoleFormPage(onNext: _goToNextPage);
+        return RoleFormPage(onNext: _goToNextPage, onPrev: _gotoPrevPage);
+      case 5:
+        return VerifPhonePage(
+          onPrev: _gotoPrevPage,
+          onNext: _goToNextPage,
+        );
+      case 6:
+        return const CompletedRegPage();
       default:
         return IntroState(onNext: _goToNextPage);
     }
@@ -53,13 +65,16 @@ class _IntroPageState extends State<IntroPage> {
     return Scaffold(
       body: Center(
           child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(height: 60),
-            CustomLogo(),
-            _getSelectedPage(_currentPage)
-          ],
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 36.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 60),
+              const CustomLogo(),
+              _getSelectedPage(_currentPage)
+            ],
+          ),
         ),
       )),
     );

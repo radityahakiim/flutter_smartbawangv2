@@ -8,6 +8,9 @@ class CustomTextBox extends StatefulWidget {
   final bool isPassword;
   final bool isNumber;
   final bool isDdFormField;
+  final bool isCustomSize;
+  final double? custWidth;
+  final double? custHeight;
   final List<String>? dropdownItems;
 
   const CustomTextBox({
@@ -18,6 +21,9 @@ class CustomTextBox extends StatefulWidget {
     this.isNumber = false,
     this.isDdFormField = false,
     this.dropdownItems,
+    this.isCustomSize = false,
+    this.custWidth,
+    this.custHeight,
   }) : super(key: key);
 
   @override
@@ -46,8 +52,8 @@ class _CustomTextBoxState extends State<CustomTextBox> {
         ),
         SizedBox(height: 4),
         Container(
-          width: 325,
-          height: 47,
+          width: widget.isCustomSize ? (widget.custWidth ?? 325) : 325,
+          height: widget.isCustomSize ? (widget.custHeight ?? 47) : 47,
           padding: const EdgeInsets.symmetric(horizontal: 16),
           decoration: ShapeDecoration(
             color: Color(0x19FAC1FF),

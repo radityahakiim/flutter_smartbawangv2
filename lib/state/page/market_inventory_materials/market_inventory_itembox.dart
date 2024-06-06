@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
-import 'package:flutter_smartbawangv2/state/page/product_page.dart';
+import 'package:flutter_smartbawangv2/state/page/inventory/product_page.dart';
 
-class InventoryItemBox extends StatelessWidget {
+class MarketInvItemBox extends StatelessWidget {
   final String imageasset;
   final String title;
   final String tanggal;
   final String harga;
 
-  const InventoryItemBox({
+  const MarketInvItemBox({
     Key? key,
     required this.imageasset,
     required this.title,
@@ -19,7 +19,7 @@ class InventoryItemBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 160,
+        width: 180,
         height: 160,
         decoration: ShapeDecoration(
           color: Colors.white,

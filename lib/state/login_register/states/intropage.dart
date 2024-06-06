@@ -37,7 +37,10 @@ class IntroState extends StatelessWidget {
         ),
       ),
       SizedBox(height: 47),
-      CustomButton(text: "Mulai Sekarang", onPressed: onNext)
+      CustomButton(
+        text: "Mulai Sekarang",
+        onPressed: onNext,
+      )
     ]);
   }
 }

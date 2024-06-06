@@ -2,7 +2,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
-import 'package:flutter_smartbawangv2/state/page/statisticpage_materials/record_supply_item.dart';
+import 'package:flutter_smartbawangv2/state/page/statistic_and_records/statisticpage_materials/record_supply_item.dart';
 
 class StatisticPage extends StatefulWidget {
   const StatisticPage({super.key});

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smartbawangv2/state/login_register/intro.dart';
-import 'package:flutter_smartbawangv2/state/main_navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
@@ -18,7 +17,7 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: IntroPage(),
+        home: const IntroPage(),
         title: 'Smart Bawang',
         theme: ThemeData(
             textTheme: TextTheme(

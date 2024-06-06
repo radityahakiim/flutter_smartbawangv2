@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_smartbawangv2/shared/AppScrollBehaviour.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
 import 'package:flutter_smartbawangv2/state/main_navigation.dart';
-import 'package:flutter_smartbawangv2/state/page/cari_petani.dart';
+import 'package:flutter_smartbawangv2/state/page/cari_user/cari_user.dart';
 import 'package:flutter_smartbawangv2/state/page/dashboard_materials/dashboard_button.dart';
 import 'package:flutter_smartbawangv2/state/page/dashboard_materials/dashboard_box.dart';
 import 'package:flutter_smartbawangv2/state/page/dashboard_materials/dashboard_itembox.dart';
@@ -151,7 +151,7 @@ class _DashboardPage extends State<DashboardPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => CariPetaniPage()),
+                                  builder: (context) => CariUser()),
                             );
                           }),
                       DashboardButton(

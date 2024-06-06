@@ -1,7 +1,7 @@
 // Box untuk item record supply
 
 import 'package:flutter/material.dart';
-import 'package:flutter_smartbawangv2/state/page/detail_supply_page.dart';
+import 'package:flutter_smartbawangv2/state/page/statistic_and_records/detail_record_page.dart';
 
 class RecordSupplyItemBox extends StatelessWidget {
   final String namapetani;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
 import 'package:flutter_smartbawangv2/state/page/dashboard.dart';
-import 'package:flutter_smartbawangv2/state/page/inventory.dart';
+import 'package:flutter_smartbawangv2/state/page/inventory/inventory.dart';
 import 'package:flutter_smartbawangv2/state/page/profile_page.dart';
-import 'package:flutter_smartbawangv2/state/page/statisticpage.dart';
+import 'package:flutter_smartbawangv2/state/page/statistic_and_records/statisticpage.dart';
 import 'package:provider/provider.dart';
 
 class MainPage extends StatelessWidget {
