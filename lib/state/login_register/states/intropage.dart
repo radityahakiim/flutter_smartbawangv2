@@ -14,8 +14,8 @@ class IntroState extends StatelessWidget {
         height: 279.12,
         child: Image.asset('assets/intro.png'),
       ),
-      SizedBox(height: 55.29),
-      Text(
+      const SizedBox(height: 55.29),
+      const Text(
         'Kesejahteraan\nPetani Bawang',
         textAlign: TextAlign.center,
         style: TextStyle(

@@ -11,7 +11,10 @@ class CustomTextBox extends StatefulWidget {
   final bool isCustomSize;
   final double? custWidth;
   final double? custHeight;
-  final List<String>? dropdownItems;
+  final List<Map<String, String>>? dropdownItems;
+  final String? selectedItem;
+  final ValueChanged<String?>? onChanged;
+  final TextEditingController? controller;
 
   const CustomTextBox({
     Key? key,
@@ -24,6 +27,9 @@ class CustomTextBox extends StatefulWidget {
     this.isCustomSize = false,
     this.custWidth,
     this.custHeight,
+    this.controller,
+    this.selectedItem,
+    this.onChanged,
   }) : super(key: key);
 
   @override
@@ -32,8 +38,7 @@ class CustomTextBox extends StatefulWidget {
 
 class _CustomTextBoxState extends State<CustomTextBox> {
   bool _isObscured = true;
-  String? _selectedItem;
-
+  // String? _selectedItem;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -64,22 +69,19 @@ class _CustomTextBoxState extends State<CustomTextBox> {
           ),
           child: widget.isDdFormField
               ? DropdownButtonFormField<String>(
-                  value: _selectedItem,
+                  value: widget.selectedItem,
                   hint: _ddformText(
                     text: widget.textboxHint,
                   ),
-                  items: widget.dropdownItems?.map((String value) {
+                  items: widget.dropdownItems?.map((Map<String, String> item) {
                     return DropdownMenuItem<String>(
-                        value: value,
-                        child: _ddformText(
-                          text: value,
-                        ));
+                      value: item["value"],
+                      child: _ddformText(
+                        text: item["display"]!,
+                      ),
+                    );
                   }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      _selectedItem = newValue;
-                    });
-                  },
+                  onChanged: widget.onChanged,
                   dropdownColor: Colors.white,
                   style: TextStyle(color: Colors.black),
                   decoration: InputDecoration(
@@ -95,7 +97,8 @@ class _CustomTextBoxState extends State<CustomTextBox> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: TextField(
+                      child: TextFormField(
+                        controller: widget.controller,
                         obscureText: widget.isPassword ? _isObscured : false,
                         keyboardType: widget.isNumber
                             ? TextInputType.number

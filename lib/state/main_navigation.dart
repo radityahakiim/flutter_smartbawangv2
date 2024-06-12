@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_smartbawangv2/db_local/auth/auth_controller.dart';
+import 'package:flutter_smartbawangv2/db_local/user_model.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
 import 'package:flutter_smartbawangv2/state/page/dashboard.dart';
 import 'package:flutter_smartbawangv2/state/page/inventory/inventory.dart';
@@ -7,27 +9,39 @@ import 'package:flutter_smartbawangv2/state/page/statistic_and_records/statistic
 import 'package:provider/provider.dart';
 
 class MainPage extends StatelessWidget {
+  final User user;
+  const MainPage({
+    super.key,
+    required this.user,
+  });
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (_) => PageIndexProvider(), child: _MainPage());
+        create: (_) => PageIndexProvider(),
+        child: _MainPage(
+          user: user,
+        ));
   }
 }
 
 class _MainPage extends StatefulWidget {
-  const _MainPage({super.key});
+  final User user;
+  const _MainPage({required this.user});
 
   @override
   State<_MainPage> createState() => _MainPageState();
 }
 
 class _MainPageState extends State<_MainPage> {
-  List<Widget> pages = const [
-    DashboardPage(),
-    InventoryPage(),
-    StatisticPage(),
-    ProfileMenuPage(),
-  ];
+  final AuthController authController = AuthController();
+  List<Widget> get pages => [
+        DashboardPage(
+          user: widget.user,
+        ),
+        InventoryPage(),
+        StatisticPage(),
+        ProfileMenuPage(),
+      ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

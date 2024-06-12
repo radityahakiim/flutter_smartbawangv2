@@ -2,6 +2,7 @@
 // Dashboard ini akan memantau pasar di daerah sekitar
 
 import 'package:flutter/material.dart';
+import 'package:flutter_smartbawangv2/db_local/user_model.dart';
 import 'package:flutter_smartbawangv2/shared/AppScrollBehaviour.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
 import 'package:flutter_smartbawangv2/state/main_navigation.dart';
@@ -12,7 +13,8 @@ import 'package:flutter_smartbawangv2/state/page/dashboard_materials/dashboard_i
 import 'package:provider/provider.dart';
 
 class DashboardPage extends StatefulWidget {
-  const DashboardPage({super.key});
+  final User user;
+  const DashboardPage({super.key, required this.user});
 
   @override
   State<DashboardPage> createState() => _DashboardPage();
@@ -38,15 +40,15 @@ class _DashboardPage extends State<DashboardPage> {
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   child: Column(
                     children: [
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       Row(
                         children: [
                           Row(
                             // Logo Smart System Bawang Merah
                             children: [
-                              SizedBox(width: 8),
+                              const SizedBox(width: 8),
                               Image.asset('assets/logo.png'),
-                              SizedBox(width: 10),
+                              const SizedBox(width: 10),
                               const Column(
                                 mainAxisSize: MainAxisSize.min,
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -76,7 +78,7 @@ class _DashboardPage extends State<DashboardPage> {
                             children: [
                               IconButton(
                                   onPressed: () {},
-                                  icon: Icon(Icons.notifications),
+                                  icon: const Icon(Icons.notifications),
                                   color: Colors.white),
                               IconButton(
                                   onPressed: () {},
@@ -92,8 +94,8 @@ class _DashboardPage extends State<DashboardPage> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Selamat Datang!",
-                          style: TextStyle(
+                          "Selamat Datang, ${widget.user.namaLengkap}!",
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 24,
                             fontWeight: FontWeight.w600,

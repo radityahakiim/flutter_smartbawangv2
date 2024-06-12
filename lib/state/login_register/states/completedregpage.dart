@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_smartbawangv2/db_local/user_model.dart';
 import 'package:flutter_smartbawangv2/state/main_navigation.dart';
 import 'package:flutter_smartbawangv2/state/materials/button.dart';
 import 'package:gif/gif.dart';
 
 class CompletedRegPage extends StatefulWidget {
-  const CompletedRegPage({super.key});
+  final User user;
+  const CompletedRegPage({super.key, required this.user});
 
   @override
   State<CompletedRegPage> createState() => _CompletedRegPage();
@@ -66,7 +68,8 @@ class _CompletedRegPage extends State<CompletedRegPage>
             text: "Masuk Sekarang",
             onPressed: () {
               Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => MainPage()),
+                  MaterialPageRoute(
+                      builder: (context) => MainPage(user: widget.user)),
                   (Route<dynamic> route) => false);
             })
       ],

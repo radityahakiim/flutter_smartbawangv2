@@ -1,20 +1,44 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_smartbawangv2/db_local/auth/auth_controller.dart';
+import 'package:flutter_smartbawangv2/db_local/user_model.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
 import 'package:flutter_smartbawangv2/state/materials/button.dart';
 import 'package:flutter_smartbawangv2/state/materials/textbox.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class RoleFormPage extends StatefulWidget {
   final VoidCallback onNext;
   final VoidCallback onPrev;
-  const RoleFormPage({super.key, required this.onNext, required this.onPrev});
+  final VoidCallback ifFail;
+  final GlobalKey<ScaffoldMessengerState> scaffoldKey;
+  const RoleFormPage(
+      {super.key,
+      required this.onNext,
+      required this.onPrev,
+      required this.scaffoldKey,
+      required this.ifFail});
 
   @override
   State<RoleFormPage> createState() => _RoleFormPage();
 }
 
 class _RoleFormPage extends State<RoleFormPage> {
+  final List<Map<String, String>> dropdownItemsProvince = [
+    {"display": "Jawa Tengah", "value": "jateng"},
+  ];
+
+  final List<Map<String, String>> dropdownItemsCity = [
+    {"display": "Boyolali", "value": "boyolali"},
+    {"display": "Brebes", "value": "brebes"},
+    {"display": "Demak", "value": "demak"},
+    {"display": "Kendal", "value": "kendal"},
+    {"display": "Tegal", "value": "tegal"},
+    {"display": "Temanggung", "value": "temanggung"},
+    {"display": "Pati", "value": "pati"},
+  ];
+
   File? _imageFile;
 
   Future<void> _pickImage() async {
@@ -28,11 +52,44 @@ class _RoleFormPage extends State<RoleFormPage> {
     }
   }
 
+  Future<void> lastValidateandRegister() async {
+    // final controller = AuthController();
+    final controller = Provider.of<AuthController>(context, listen: false);
+    try {
+      final namaBisnis = controller.namaBisnisController.text;
+      final alamatBisnis = controller.alamatBisnisController.text;
+
+      if (namaBisnis.isEmpty || alamatBisnis.isEmpty) {
+        throw ("Semua form wajib diisi");
+      } else if (!controller.isProvinceSelected()) {
+        throw ("Pilih provinsi salah satu");
+      } else if (!controller.isCitySelected()) {
+        throw ("Pilih kota salah satu");
+      } else {
+        User? user = await controller.register(context, widget.scaffoldKey);
+        if (user != null) {
+          widget.onNext();
+        } else {
+          widget.ifFail();
+        }
+      }
+    } catch (e) {
+      final snackBar = SnackBar(
+        content: Text(e.toString()),
+        backgroundColor: Colors.red,
+      );
+      widget.scaffoldKey.currentState?.showSnackBar(snackBar);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final authController = Provider.of<AuthController>(context);
+
     return Column(
       children: [
-        SizedBox(height: 40),
-        Text(
+        const SizedBox(height: 40),
+        const Text(
           'Daftar Pengepul',
           textAlign: TextAlign.center,
           style: TextStyle(
@@ -42,27 +99,42 @@ class _RoleFormPage extends State<RoleFormPage> {
             height: 0,
           ),
         ),
-        SizedBox(height: 26),
+        const SizedBox(height: 26),
         CustomTextBox(
-            textboxDesc: "Nama Warehouse",
-            textboxHint: "Masukkan nama Warehouse"),
-        SizedBox(height: 14),
-        CustomTextBox(textboxDesc: "Alamat", textboxHint: "Masukkan alamat"),
-        SizedBox(height: 14),
+          textboxDesc: "Nama Warehouse",
+          textboxHint: "Masukkan nama Warehouse",
+          controller: authController.namaBisnisController,
+        ),
+        const SizedBox(height: 14),
         CustomTextBox(
-            textboxDesc: "Provinsi",
-            textboxHint: "Pilih Provinsi",
-            isDdFormField: true,
-            dropdownItems: ["Jawa Tengah"]),
-        SizedBox(height: 14),
+          textboxDesc: "Alamat",
+          textboxHint: "Masukkan alamat",
+          controller: authController.alamatBisnisController,
+        ),
+        const SizedBox(height: 14),
+        CustomTextBox(
+          textboxDesc: "Provinsi",
+          textboxHint: "Pilih Provinsi",
+          isDdFormField: true,
+          dropdownItems: dropdownItemsProvince,
+          selectedItem: authController.selectedProvince,
+          onChanged: (value) {
+            authController.setSelectedProvince(value);
+          },
+        ),
+        const SizedBox(height: 14),
         CustomTextBox(
           textboxDesc: "Kota",
           textboxHint: "Pilih Kota",
           isDdFormField: true,
-          dropdownItems: ["Brebes"],
+          dropdownItems: dropdownItemsCity,
+          selectedItem: authController.selectedCity,
+          onChanged: (value) {
+            authController.setSelectedCity(value);
+          },
         ),
-        SizedBox(height: 14),
-        Align(
+        const SizedBox(height: 14),
+        const Align(
           alignment: Alignment.centerLeft,
           child: Row(children: [
             Text(
@@ -95,10 +167,10 @@ class _RoleFormPage extends State<RoleFormPage> {
                 width: 82,
                 height: 82,
                 decoration: ShapeDecoration(
-                    color: Color(0xFFFFF9FF),
+                    color: const Color(0xFFFFF9FF),
                     shape: RoundedRectangleBorder(
-                        side:
-                            BorderSide(width: 1, color: AppTheme.primaryColor),
+                        side: const BorderSide(
+                            width: 1, color: AppTheme.primaryColor),
                         borderRadius: BorderRadius.circular(8))),
                 child: Stack(
                   children: [
@@ -110,7 +182,7 @@ class _RoleFormPage extends State<RoleFormPage> {
                         fit: BoxFit.cover,
                       )
                     else
-                      Center(
+                      const Center(
                         child: Icon(
                           Icons.add,
                           color: AppTheme.primaryColor,
@@ -121,7 +193,7 @@ class _RoleFormPage extends State<RoleFormPage> {
                 )),
           ),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -133,7 +205,9 @@ class _RoleFormPage extends State<RoleFormPage> {
                 custWidth: 150),
             CustomButton(
                 text: "Lanjut",
-                onPressed: widget.onNext,
+                onPressed: () async {
+                  lastValidateandRegister();
+                },
                 isCustomSize: true,
                 custWidth: 150)
           ],
