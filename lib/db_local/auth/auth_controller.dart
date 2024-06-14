@@ -83,6 +83,11 @@ class AuthController with ChangeNotifier {
         loginEmailPhoneController.text, loginPasswordController.text);
   }
 
+  void logout() {
+    loginEmailPhoneController.clear();
+    loginPasswordController.clear();
+  }
+
   void disposeControllers() {
     namaLengkapController.dispose();
     namaBisnisController.dispose();

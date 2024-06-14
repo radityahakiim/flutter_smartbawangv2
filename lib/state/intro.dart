@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_smartbawangv2/db_local/user_model.dart';
 import 'package:flutter_smartbawangv2/state/login_register/states/completedregpage.dart';
 import 'package:flutter_smartbawangv2/state/login_register/states/intropage.dart';
 import 'package:flutter_smartbawangv2/state/login_register/states/loginpage.dart';
@@ -19,7 +18,6 @@ class IntroPage extends StatefulWidget {
 }
 
 class _IntroPageState extends State<IntroPage> {
-  User? user;
   final _scaffoldKey = GlobalKey<ScaffoldMessengerState>();
 
   int _currentPage = 0;
@@ -39,6 +37,12 @@ class _IntroPageState extends State<IntroPage> {
   void _goBackToFirstRegisterPage() {
     setState(() {
       _currentPage = 2;
+    });
+  }
+
+  void _gotoLoginPage() {
+    setState(() {
+      _currentPage = 1;
     });
   }
 
@@ -76,9 +80,7 @@ class _IntroPageState extends State<IntroPage> {
       //     onNext: _goToNextPage,
       //   );
       case 5:
-        return CompletedRegPage(
-          user: user!,
-        );
+        return CompletedRegPage(goToLoginPage: _gotoLoginPage);
       default:
         return IntroState(onNext: _goToNextPage);
     }

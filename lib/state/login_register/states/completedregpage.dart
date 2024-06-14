@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_smartbawangv2/db_local/user_model.dart';
-import 'package:flutter_smartbawangv2/state/main_navigation.dart';
 import 'package:flutter_smartbawangv2/state/materials/button.dart';
 import 'package:gif/gif.dart';
 
 class CompletedRegPage extends StatefulWidget {
-  final User user;
-  const CompletedRegPage({super.key, required this.user});
+  final VoidCallback goToLoginPage;
+  const CompletedRegPage({super.key, required this.goToLoginPage});
 
   @override
   State<CompletedRegPage> createState() => _CompletedRegPage();
@@ -32,8 +30,8 @@ class _CompletedRegPage extends State<CompletedRegPage>
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 40),
-        Text(
+        const SizedBox(height: 40),
+        const Text(
           'Daftar Berhasil!',
           textAlign: TextAlign.center,
           style: TextStyle(
@@ -43,8 +41,8 @@ class _CompletedRegPage extends State<CompletedRegPage>
             height: 0,
           ),
         ),
-        SizedBox(height: 10),
-        Text(
+        const SizedBox(height: 10),
+        const Text(
           'Akun Anda telah terdaftar. Masuk sekarang untuk menggunakan aplikasi',
           textAlign: TextAlign.center,
           style: TextStyle(
@@ -54,24 +52,17 @@ class _CompletedRegPage extends State<CompletedRegPage>
             height: 0,
           ),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Container(
           width: 300,
           height: 300,
           child: Gif(
               controller: controller,
               autostart: Autostart.once,
-              image: AssetImage('assets/completed.gif')),
+              image: const AssetImage('assets/completed.gif')),
         ),
-        SizedBox(height: 20),
-        CustomButton(
-            text: "Masuk Sekarang",
-            onPressed: () {
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                      builder: (context) => MainPage(user: widget.user)),
-                  (Route<dynamic> route) => false);
-            })
+        const SizedBox(height: 20),
+        CustomButton(text: "Masuk Sekarang", onPressed: widget.goToLoginPage)
       ],
     );
   }
