@@ -9,10 +9,12 @@ import 'package:flutter_smartbawangv2/state/page/statistic_and_records/statistic
 import 'package:provider/provider.dart';
 
 class MainPage extends StatelessWidget {
+  final GlobalKey<ScaffoldMessengerState> scaffoldkey;
   final User user;
   const MainPage({
     super.key,
     required this.user,
+    required this.scaffoldkey,
   });
   @override
   Widget build(BuildContext context) {
@@ -20,13 +22,15 @@ class MainPage extends StatelessWidget {
         create: (_) => PageIndexProvider(),
         child: _MainPage(
           user: user,
+          scaffoldkey: scaffoldkey,
         ));
   }
 }
 
 class _MainPage extends StatefulWidget {
   final User user;
-  const _MainPage({required this.user});
+  final GlobalKey<ScaffoldMessengerState> scaffoldkey;
+  const _MainPage({required this.user, required this.scaffoldkey});
 
   @override
   State<_MainPage> createState() => _MainPageState();
@@ -38,9 +42,12 @@ class _MainPageState extends State<_MainPage> {
         DashboardPage(
           user: widget.user,
         ),
-        InventoryPage(),
+        InventoryPage(
+          user: widget.user,
+          scaffoldkey: widget.scaffoldkey,
+        ),
         StatisticPage(),
-        ProfileMenuPage(),
+        ProfileMenuPage(user: widget.user),
       ];
   @override
   Widget build(BuildContext context) {

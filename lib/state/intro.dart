@@ -88,23 +88,27 @@ class _IntroPageState extends State<IntroPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ScaffoldMessenger(
-      key: _scaffoldKey,
-      child: Scaffold(
-        body: Center(
-            child: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 36.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 60),
-                const CustomLogo(),
-                _getSelectedPage(_currentPage)
-              ],
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) => _gotoPrevPage(),
+      child: ScaffoldMessenger(
+        key: _scaffoldKey,
+        child: Scaffold(
+          body: Center(
+              child: SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 36.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 60),
+                  const CustomLogo(),
+                  _getSelectedPage(_currentPage)
+                ],
+              ),
             ),
-          ),
-        )),
+          )),
+        ),
       ),
     );
   }

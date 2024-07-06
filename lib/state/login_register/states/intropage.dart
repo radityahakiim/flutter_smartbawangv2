@@ -6,6 +6,7 @@ class IntroState extends StatelessWidget {
 
   const IntroState({super.key, required this.onNext});
 
+  @override
   Widget build(BuildContext context) {
     return Column(children: [
       const SizedBox(height: 92),
@@ -36,11 +37,11 @@ class IntroState extends StatelessWidget {
           letterSpacing: -0.13,
         ),
       ),
-      SizedBox(height: 47),
+      const SizedBox(height: 47),
       CustomButton(
         text: "Mulai Sekarang",
         onPressed: onNext,
-      )
+      ),
     ]);
   }
 }

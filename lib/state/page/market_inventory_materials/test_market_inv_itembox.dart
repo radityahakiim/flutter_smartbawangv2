@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_smartbawangv2/db_local/item_model.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
-import 'package:flutter_smartbawangv2/state/page/inventory/product_page.dart';
-// import 'package:flutter_smartbawangv2/state/page/inventory/product_page_test.dart';
-import 'package:flutter_smartbawangv2/shared/rupiah_convert.dart';
+import 'package:flutter_smartbawangv2/state/page/inventory/product_page_test.dart';
 
-class MarketInvItemBox extends StatelessWidget {
-  final Item item;
+class TestMarketInvItemBox extends StatelessWidget {
   final String imageasset;
   final String title;
-  final DateTime tanggal;
-  final double harga;
+  final String tanggal;
+  final String harga;
 
-  const MarketInvItemBox({
+  const TestMarketInvItemBox({
     Key? key,
     required this.imageasset,
     required this.title,
     required this.tanggal,
     required this.harga,
-    required this.item,
   }) : super(key: key);
 
   @override
@@ -43,9 +38,7 @@ class MarketInvItemBox extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: ((context) => InventoryProductPage(
-                            item: item,
-                          ))));
+                      builder: ((context) => InventoryProductPageTest())));
             },
             borderRadius: BorderRadius.circular(8),
             child: Column(
@@ -69,7 +62,7 @@ class MarketInvItemBox extends StatelessWidget {
                   ],
                 ),
                 Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: EdgeInsets.all(8),
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -77,7 +70,7 @@ class MarketInvItemBox extends StatelessWidget {
                           alignment: Alignment.centerLeft,
                           child: Text(
                             title,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.black,
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
@@ -88,7 +81,7 @@ class MarketInvItemBox extends StatelessWidget {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            formatRupiah(harga),
+                            harga,
                             style: TextStyle(
                               color: AppTheme.primaryColor,
                               fontSize: 14,
@@ -112,7 +105,7 @@ class MarketInvItemBox extends StatelessWidget {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            '${tanggal.toLocal()}'.split(' ')[0],
+                            tanggal,
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 12,

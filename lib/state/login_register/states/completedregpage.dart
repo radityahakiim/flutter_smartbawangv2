@@ -53,6 +53,7 @@ class _CompletedRegPage extends State<CompletedRegPage>
           ),
         ),
         const SizedBox(height: 20),
+        // ignore: sized_box_for_whitespace
         Container(
           width: 300,
           height: 300,

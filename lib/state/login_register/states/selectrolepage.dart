@@ -73,7 +73,11 @@ class _SelectRolePage extends State<SelectRolePage> {
           },
         ),
         const SizedBox(height: 30),
-        CustomButton(text: "Lanjut", onPressed: widget.onNext),
+        CustomButton(
+            text: "Lanjut",
+            onPressed: () {
+              validateRole();
+            }),
         const SizedBox(height: 10),
         CustomButton(
             text: "Balik", onPressed: widget.onPrev, isWhiteButton: true),

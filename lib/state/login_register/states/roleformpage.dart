@@ -25,6 +25,8 @@ class RoleFormPage extends StatefulWidget {
 }
 
 class _RoleFormPage extends State<RoleFormPage> {
+  bool isLoading = false;
+
   final List<Map<String, String>> dropdownItemsProvince = [
     {"display": "Jawa Tengah", "value": "jateng"},
   ];
@@ -55,6 +57,10 @@ class _RoleFormPage extends State<RoleFormPage> {
   Future<void> lastValidateandRegister() async {
     // final controller = AuthController();
     final controller = Provider.of<AuthController>(context, listen: false);
+    setState(() {
+      isLoading = true;
+    });
+
     try {
       final namaBisnis = controller.namaBisnisController.text;
       final alamatBisnis = controller.alamatBisnisController.text;
@@ -79,6 +85,10 @@ class _RoleFormPage extends State<RoleFormPage> {
         backgroundColor: Colors.red,
       );
       widget.scaffoldKey.currentState?.showSnackBar(snackBar);
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
@@ -194,24 +204,27 @@ class _RoleFormPage extends State<RoleFormPage> {
           ),
         ),
         const SizedBox(height: 16),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CustomButton(
-                text: "Balik",
-                onPressed: widget.onPrev,
-                isWhiteButton: true,
-                isCustomSize: true,
-                custWidth: 150),
-            CustomButton(
-                text: "Lanjut",
-                onPressed: () async {
-                  lastValidateandRegister();
-                },
-                isCustomSize: true,
-                custWidth: 150)
-          ],
-        ),
+        if (isLoading)
+          const CircularProgressIndicator()
+        else
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CustomButton(
+                  text: "Balik",
+                  onPressed: widget.onPrev,
+                  isWhiteButton: true,
+                  isCustomSize: true,
+                  custWidth: 150),
+              CustomButton(
+                  text: "Lanjut",
+                  onPressed: () async {
+                    lastValidateandRegister();
+                  },
+                  isCustomSize: true,
+                  custWidth: 150)
+            ],
+          ),
       ],
     );
   }

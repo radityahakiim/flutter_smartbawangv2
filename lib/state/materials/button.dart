@@ -22,61 +22,70 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double defaultButtonWidth = MediaQuery.of(context).size.width;
+    // double defaultButtonWidth = MediaQuery.of(context).size.width;
     if (isWhiteButton) {
-      return ElevatedButton(
+      return Container(
+        constraints: isCustomSize
+            ? BoxConstraints(
+                minWidth: custWidth ?? double.infinity,
+                minHeight: custHeight ?? 45.67)
+            : const BoxConstraints(minWidth: double.infinity, minHeight: 45.67),
+        child: ElevatedButton(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.white, // Background color
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+            shape: RoundedRectangleBorder(
+              side: const BorderSide(width: 1, color: AppTheme.primaryColor),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            shadowColor: const Color(0x26000000), // Shadow color
+            elevation: 3, // Shadow elevation
+            // minimumSize: isCustomSize
+            //     ? Size(custWidth ?? 0, custHeight ?? 45.67)
+            //     : Size(0, 45.67),
+          ),
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.nunito(
+              color: AppTheme.primaryColor,
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              height: 0,
+            ),
+          ),
+        ),
+      );
+    }
+    return Container(
+      constraints: isCustomSize
+          ? BoxConstraints(
+              minWidth: custWidth ?? double.infinity,
+              minHeight: custHeight ?? 45.67)
+          : const BoxConstraints(minWidth: double.infinity, minHeight: 45.67),
+      child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.white, // Background color
+          backgroundColor: const Color(0xFF78287E), // Background color
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
           shape: RoundedRectangleBorder(
-            side: const BorderSide(width: 1, color: AppTheme.primaryColor),
             borderRadius: BorderRadius.circular(8),
           ),
           shadowColor: const Color(0x26000000), // Shadow color
           elevation: 3, // Shadow elevation
-          minimumSize: Size(
-              isCustomSize
-                  ? (custWidth ?? defaultButtonWidth)
-                  : defaultButtonWidth,
-              isCustomSize ? (custHeight ?? 45.67) : 45.67), // Button size
+          // minimumSize: Size(
+          //     isCustomSize
         ),
         child: Text(
           text,
           textAlign: TextAlign.center,
           style: GoogleFonts.nunito(
-            color: AppTheme.primaryColor,
+            color: Colors.white,
             fontSize: 16,
             fontWeight: FontWeight.w700,
             height: 0,
           ),
-        ),
-      );
-    }
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xFF78287E), // Background color
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        shadowColor: const Color(0x26000000), // Shadow color
-        elevation: 3, // Shadow elevation
-        minimumSize: Size(
-            isCustomSize
-                ? (custWidth ?? defaultButtonWidth)
-                : defaultButtonWidth,
-            isCustomSize ? (custHeight ?? 45.67) : 45.67),
-      ),
-      child: Text(
-        text,
-        textAlign: TextAlign.center,
-        style: GoogleFonts.nunito(
-          color: Colors.white,
-          fontSize: 16,
-          fontWeight: FontWeight.w700,
-          height: 0,
         ),
       ),
     );

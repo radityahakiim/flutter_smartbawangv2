@@ -69,7 +69,8 @@ class AuthController with ChangeNotifier {
     bool success = await authService.register(user);
     if (!success) {
       scaffoldKey.currentState?.showSnackBar(
-        SnackBar(content: Text("Email dan nomor telepon sudah terpakai!")),
+        const SnackBar(
+            content: Text("Email dan nomor telepon sudah terpakai!")),
       );
       return null;
     } else {
@@ -83,10 +84,10 @@ class AuthController with ChangeNotifier {
         loginEmailPhoneController.text, loginPasswordController.text);
   }
 
-  void logout() {
-    loginEmailPhoneController.clear();
-    loginPasswordController.clear();
-  }
+  // void logout() {
+  //   loginEmailPhoneController.clear();
+  //   loginPasswordController.clear();
+  // }
 
   void disposeControllers() {
     namaLengkapController.dispose();

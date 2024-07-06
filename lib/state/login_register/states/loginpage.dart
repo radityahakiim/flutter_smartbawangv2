@@ -86,8 +86,11 @@ class _LoginPage extends State<LoginPage> {
           if (isValid) {
             User? user = await authController.login();
             if (user != null) {
+              if (!mounted) return;
               Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => MainPage(user: user)),
+                  MaterialPageRoute(
+                      builder: (context) => MainPage(
+                          user: user, scaffoldkey: widget.scaffoldKey)),
                   (Route<dynamic> route) => false);
             } else {
               widget.scaffoldKey.currentState?.showSnackBar(const SnackBar(

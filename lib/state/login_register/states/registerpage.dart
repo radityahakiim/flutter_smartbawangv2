@@ -28,14 +28,14 @@ class _RegisterPage extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    final _controller = Provider.of<AuthController>(context);
+    final controller = Provider.of<AuthController>(context);
 
-    Future _validateAndProceed() async {
+    Future validateAndProceed() async {
       try {
-        final namalengkap = _controller.namaLengkapController.text;
-        final email = _controller.emailController.text;
-        final nomorHp = _controller.nomorHpController.text;
-        final password = _controller.passwordController.text;
+        final namalengkap = controller.namaLengkapController.text;
+        final email = controller.emailController.text;
+        final nomorHp = controller.nomorHpController.text;
+        final password = controller.passwordController.text;
         final confirmpassword = confirmPasswordController.text;
 
         if (namalengkap.isEmpty ||
@@ -73,13 +73,13 @@ class _RegisterPage extends State<RegisterPage> {
       super.dispose();
     }
 
-    void _showSnackBar(String message) {
-      final snackBar = SnackBar(
-        content: Text(message),
-        backgroundColor: Colors.red,
-      );
-      widget.scaffoldkey.currentState?.showSnackBar(snackBar);
-    }
+    // void _showSnackBar(String message) {
+    //   final snackBar = SnackBar(
+    //     content: Text(message),
+    //     backgroundColor: Colors.red,
+    //   );
+    //   widget.scaffoldkey.currentState?.showSnackBar(snackBar);
+    // }
 
     return Column(
       children: [
@@ -98,27 +98,27 @@ class _RegisterPage extends State<RegisterPage> {
         CustomTextBox(
           textboxDesc: "Nama Lengkap",
           textboxHint: "Masukkan Nama Lengkap",
-          controller: _controller.namaLengkapController,
+          controller: controller.namaLengkapController,
         ),
         const SizedBox(height: 14),
         CustomTextBox(
           textboxDesc: "Nomor Handphone",
           textboxHint: "Masukkan nomor handphone",
           isNumber: true,
-          controller: _controller.nomorHpController,
+          controller: controller.nomorHpController,
         ),
         const SizedBox(height: 14),
         CustomTextBox(
           textboxDesc: "Email",
           textboxHint: "Masukkan email",
-          controller: _controller.emailController,
+          controller: controller.emailController,
         ),
         const SizedBox(height: 14),
         CustomTextBox(
           textboxDesc: "Kata Sandi",
           textboxHint: "Masukkan kata sandi",
           isPassword: true,
-          controller: _controller.passwordController,
+          controller: controller.passwordController,
         ),
         const SizedBox(height: 14),
         CustomTextBox(
@@ -128,7 +128,7 @@ class _RegisterPage extends State<RegisterPage> {
           controller: confirmPasswordController,
         ),
         const SizedBox(height: 40),
-        CustomButton(text: "Daftar", onPressed: _validateAndProceed),
+        CustomButton(text: "Daftar", onPressed: validateAndProceed),
         const SizedBox(height: 14),
         RichText(
           text: TextSpan(

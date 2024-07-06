@@ -1,19 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_smartbawangv2/db_local/item/item_service.dart';
+import 'package:flutter_smartbawangv2/db_local/item_model.dart';
+import 'package:flutter_smartbawangv2/db_local/user_model.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
 import 'package:flutter_smartbawangv2/state/materials/searchbox.dart';
 import 'package:flutter_smartbawangv2/state/page/cari_user/cari_user.dart';
+import 'package:flutter_smartbawangv2/state/page/inventory/add_product_page.dart';
 import 'package:flutter_smartbawangv2/state/page/market_inventory_materials/market_inventory_itembox.dart';
 
 class InventoryPage extends StatefulWidget {
-  const InventoryPage({super.key});
+  final User user;
+  final GlobalKey<ScaffoldMessengerState> scaffoldkey;
+  const InventoryPage(
+      {super.key, required this.user, required this.scaffoldkey});
 
   @override
   State<InventoryPage> createState() => _InventoryPageState();
 }
 
 class _InventoryPageState extends State<InventoryPage> {
+  late Future<List<Item>> _futureItems;
+  ItemService itemService = ItemService();
+  void loadItems() {
+    _futureItems = itemService.getItemsByUser(widget.user.id!);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadItems();
+  }
+
   @override
   Widget build(BuildContext context) {
+    String role = widget.user.role;
+    String scaffoldTitle = '';
+    switch (role) {
+      case 'petani':
+        scaffoldTitle = 'Produk Panen Anda';
+      case 'pasar':
+        scaffoldTitle = 'Produk di pasar Anda';
+      case 'pengepul':
+        scaffoldTitle = 'Produk warehouse Anda';
+    }
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 68,
@@ -25,7 +54,7 @@ class _InventoryPageState extends State<InventoryPage> {
           ),
         ),
         title: Text(
-          'Warehouse Anda',
+          scaffoldTitle,
           style: TextStyle(
             color: Colors.white,
             fontSize: 24,
@@ -46,7 +75,7 @@ class _InventoryPageState extends State<InventoryPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Produk di warehouse Anda",
+                    scaffoldTitle,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 16,
@@ -78,15 +107,16 @@ class _InventoryPageState extends State<InventoryPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     height: 28,
                     decoration: ShapeDecoration(
                       shape: RoundedRectangleBorder(
-                        side: BorderSide(width: 1, color: Color(0xFF78287E)),
+                        side: const BorderSide(
+                            width: 1, color: Color(0xFF78287E)),
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: Align(
+                    child: const Align(
                       alignment: Alignment.center,
                       child: Text(
                         "Terjual",
@@ -98,9 +128,9 @@ class _InventoryPageState extends State<InventoryPage> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     height: 28,
                     decoration: ShapeDecoration(
                       shape: RoundedRectangleBorder(
@@ -122,28 +152,81 @@ class _InventoryPageState extends State<InventoryPage> {
                   )
                 ],
               ),
-              SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  MarketInvItemBox(
-                    imageasset: 'assets/bawang.png',
-                    title: "Bawang Sembrani",
-                    tanggal: "31 Dec 2021",
-                    harga: "Rp12.000",
-                  ),
-                  MarketInvItemBox(
-                    imageasset: 'assets/bawang.png',
-                    title: "Bawang Sembrani",
-                    tanggal: "31 Dec 2021",
-                    harga: "Belum Terjual",
-                  )
-                ],
-              ),
+              const SizedBox(height: 8),
+              FutureBuilder(
+                  future: _futureItems,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(
+                          child: Text('Terjadi Kesalahan: ${snapshot.error}'));
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return const Center(child: Text('No items found'));
+                    } else {
+                      var items = snapshot.data!;
+                      return GridView.builder(
+                        shrinkWrap: true,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2, crossAxisSpacing: 16),
+                        itemCount: items.length,
+                        itemBuilder: (context, index) {
+                          var item = items[index];
+                          return MarketInvItemBox(
+                            imageasset: 'assets/bawang.png',
+                            title: item.itemName,
+                            tanggal: item.tanggalPanen,
+                            harga: item.price,
+                            item: item,
+                          );
+                        },
+                      );
+                    }
+                  })
             ],
           ),
         ),
       ),
+      floatingActionButton: role == 'petani'
+          ? FloatingActionButton(
+              onPressed: () async {
+                final result = Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AddProductPage(
+                            scaffoldkey: widget.scaffoldkey,
+                            user: widget.user,
+                          )),
+                );
+                if (result == true) {
+                  setState(() {
+                    loadItems();
+                  });
+                }
+              },
+              child: const Icon(Icons.add),
+            )
+          : null,
     );
   }
 }
+
+/// Below is a dummy item data using row
+ // Row(
+//   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//   children: [
+//     MarketInvItemBox(
+//       imageasset: 'assets/bawang.png',
+//       title: "Bawang Sembrani",
+//       tanggal: "31 Dec 2021",
+//       harga: "Rp12.000",
+//     ),
+//     MarketInvItemBox(
+//       imageasset: 'assets/bawang.png',
+//       title: "Bawang Sembrani",
+//       tanggal: "31 Dec 2021",
+//       harga: "Belum Terjual",
+//     )
+//   ],
+// ),

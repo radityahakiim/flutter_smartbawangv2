@@ -131,7 +131,9 @@ class _DashboardPage extends State<DashboardPage> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Informasi Pasar di daerah anda',
+                      widget.user.role == 'pasar'
+                          ? 'Informasi Pasar'
+                          : 'Informasi pasar di daerah Anda',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20,

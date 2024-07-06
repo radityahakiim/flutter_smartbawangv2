@@ -1,25 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_smartbawangv2/db_local/item_model.dart';
-import 'package:flutter_smartbawangv2/shared/rupiah_convert.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
 import 'package:flutter_smartbawangv2/state/materials/button.dart';
-import 'package:intl/intl.dart';
 
-class InventoryProductPage extends StatefulWidget {
-  final Item item;
-
-  const InventoryProductPage({super.key, required this.item});
+class InventoryProductPageTest extends StatefulWidget {
   @override
-  State<InventoryProductPage> createState() => _InventoryProductPageState();
+  State<InventoryProductPageTest> createState() =>
+      _InventoryProductPageTestState();
 }
 
-class _InventoryProductPageState extends State<InventoryProductPage> {
+class _InventoryProductPageTestState extends State<InventoryProductPageTest> {
   @override
   Widget build(BuildContext context) {
-    String idBarang = widget.item.id.toString();
-    String harga = formatRupiah(widget.item.price);
-    String tanggalPanen =
-        DateFormat('d MMM yyyy').format(widget.item.tanggalPanen);
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -67,7 +58,7 @@ class _InventoryProductPageState extends State<InventoryProductPage> {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                widget.item.itemName,
+                "Bawang Sembrani Brebes",
                 style: TextStyle(
                   color: Color(0xFF333333),
                   fontSize: 26,
@@ -79,7 +70,7 @@ class _InventoryProductPageState extends State<InventoryProductPage> {
             Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "$harga/kg",
+                  "Rp13.000/kg",
                   style: TextStyle(
                     color: Color(0xFF78287E),
                     fontSize: 24,
@@ -87,88 +78,88 @@ class _InventoryProductPageState extends State<InventoryProductPage> {
                     height: 0,
                   ),
                 )),
-            // const SizedBox(height: 8),
-            // Container(
-            //   padding: EdgeInsets.symmetric(horizontal: 6),
-            //   height: 80,
-            //   decoration: ShapeDecoration(
-            //       shape: RoundedRectangleBorder(
-            //           side: BorderSide(
-            //               width: 1, color: Colors.black.withOpacity(0.2)),
-            //           borderRadius: BorderRadius.circular(10))),
-            //   child: Column(children: [
-            //     SizedBox(height: 4),
-            //     Align(
-            //       alignment: Alignment.centerLeft,
-            //       child: Text(
-            //         "Sumber Bawang",
-            //         style: TextStyle(
-            //           color: Colors.black,
-            //           fontSize: 12,
-            //           fontWeight: FontWeight.w700,
-            //           height: 0,
-            //         ),
-            //       ),
-            //     ),
-            //     SizedBox(height: 4),
-            //     Row(
-            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //       children: [
-            //         Row(
-            //           children: [
-            //             Container(
-            //               width: 45,
-            //               height: 45,
-            //               decoration: ShapeDecoration(
-            //                 shape: RoundedRectangleBorder(
-            //                   borderRadius: BorderRadius.circular(
-            //                       22.5), // Half of the width/height to make it circular
-            //                 ),
-            //               ),
-            //               child: ClipOval(
-            //                 child: Image.asset(
-            //                   'assets/fotosawah.png',
-            //                   fit: BoxFit.cover,
-            //                 ),
-            //               ),
-            //             ),
-            //             Container(
-            //               padding: EdgeInsets.symmetric(horizontal: 10),
-            //               child: Column(
-            //                   crossAxisAlignment: CrossAxisAlignment.start,
-            //                   children: [
-            //                     Text(
-            //                       'Sawah A',
-            //                       style: TextStyle(
-            //                         color: Colors.black,
-            //                         fontSize: 12,
-            //                         fontWeight: FontWeight.w700,
-            //                         height: 0,
-            //                       ),
-            //                     ),
-            //                     SizedBox(height: 6),
-            //                     Row(
-            //                       children: [
-            //                         Icon(Icons.pin_drop, size: 12),
-            //                         SizedBox(width: 6),
-            //                         Text("Brebes, Jawa Tengah",
-            //                             style: TextStyle(fontSize: 10))
-            //                       ],
-            //                     ),
-            //                   ]),
-            //             )
-            //           ],
-            //         ),
-            //         CustomButton(
-            //             text: "Kunjungi Lapak",
-            //             onPressed: () {},
-            //             isCustomSize: true,
-            //             custHeight: 40,
-            //             custWidth: 130)
-            //       ],
-            //     )
-            //   ]),
-            // ),
+            SizedBox(height: 8),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 6),
+              height: 80,
+              decoration: ShapeDecoration(
+                  shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                          width: 1, color: Colors.black.withOpacity(0.2)),
+                      borderRadius: BorderRadius.circular(10))),
+              child: Column(children: [
+                SizedBox(height: 4),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Sumber Bawang",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      height: 0,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 4),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 45,
+                          height: 45,
+                          decoration: ShapeDecoration(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  22.5), // Half of the width/height to make it circular
+                            ),
+                          ),
+                          child: ClipOval(
+                            child: Image.asset(
+                              'assets/fotosawah.png',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Sawah A',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w700,
+                                    height: 0,
+                                  ),
+                                ),
+                                SizedBox(height: 6),
+                                Row(
+                                  children: [
+                                    Icon(Icons.pin_drop, size: 12),
+                                    SizedBox(width: 6),
+                                    Text("Brebes, Jawa Tengah",
+                                        style: TextStyle(fontSize: 10))
+                                  ],
+                                ),
+                              ]),
+                        )
+                      ],
+                    ),
+                    CustomButton(
+                        text: "Kunjungi Lapak",
+                        onPressed: () {},
+                        isCustomSize: true,
+                        custHeight: 40,
+                        custWidth: 130)
+                  ],
+                )
+              ]),
+            ),
             SizedBox(height: 8),
             Align(
               alignment: Alignment.centerLeft,
@@ -186,7 +177,7 @@ class _InventoryProductPageState extends State<InventoryProductPage> {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                widget.item.itemDesc,
+                'Bawang merah ini merupakan hasil kawin silang antara bawang merah Thailand dengan bawang bombai. Bawang merah ini mempunyai daun berwarna hijau muda dan bentuk umbinya sangat bulat dengan......',
                 textAlign: TextAlign.justify,
                 style: TextStyle(
                   color: Color(0xFF393939),
@@ -196,19 +187,19 @@ class _InventoryProductPageState extends State<InventoryProductPage> {
                 ),
               ),
             ),
-            // Align(
-            //   alignment: Alignment.centerRight,
-            //   child: Text(
-            //     'Selengkapnya',
-            //     textAlign: TextAlign.right,
-            //     style: TextStyle(
-            //       color: AppTheme.primaryColor,
-            //       fontSize: 16,
-            //       fontWeight: FontWeight.w600,
-            //       height: 0,
-            //     ),
-            //   ),
-            // ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                'Selengkapnya',
+                textAlign: TextAlign.right,
+                style: TextStyle(
+                  color: AppTheme.primaryColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  height: 0,
+                ),
+              ),
+            ),
             SizedBox(
               height: 8,
             ),
@@ -226,7 +217,7 @@ class _InventoryProductPageState extends State<InventoryProductPage> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Informasi Panen Bawang',
+                      'Informasi Supply Bawang',
                       textAlign: TextAlign.justify,
                       style: TextStyle(
                         color: Colors.black,
@@ -262,7 +253,7 @@ class _InventoryProductPageState extends State<InventoryProductPage> {
                                 ),
                               ),
                               Text(
-                                '#$idBarang',
+                                '#123456',
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   color: Colors.black,
@@ -277,7 +268,7 @@ class _InventoryProductPageState extends State<InventoryProductPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Tanggal Panen',
+                                'Tanggal Supply',
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 12,
@@ -286,7 +277,7 @@ class _InventoryProductPageState extends State<InventoryProductPage> {
                                 ),
                               ),
                               Text(
-                                tanggalPanen,
+                                '12 Dec 2024',
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   color: Colors.black,
