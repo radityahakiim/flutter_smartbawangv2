@@ -8,11 +8,17 @@ import 'package:flutter_smartbawangv2/state/page/cari_user/cari_user.dart';
 import 'package:flutter_smartbawangv2/state/page/inventory/add_product_page.dart';
 import 'package:flutter_smartbawangv2/state/page/market_inventory_materials/market_inventory_itembox.dart';
 
+typedef RoleSelectedCallback = void Function(String role);
+
 class InventoryPage extends StatefulWidget {
   final User user;
   final GlobalKey<ScaffoldMessengerState> scaffoldkey;
+  final RoleSelectedCallback? onRoleSelected;
   const InventoryPage(
-      {super.key, required this.user, required this.scaffoldkey});
+      {super.key,
+      required this.user,
+      required this.scaffoldkey,
+      this.onRoleSelected});
 
   @override
   State<InventoryPage> createState() => _InventoryPageState();
@@ -31,10 +37,27 @@ class _InventoryPageState extends State<InventoryPage> {
     loadItems();
   }
 
+  void refresh() {
+    setState(() {
+      loadItems();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     String role = widget.user.role;
     String scaffoldTitle = '';
+    // Menentukan tombol cari pasar atau cari petani
+    String cariPasar = 'Cari Pasar';
+    String cariPetani = 'Cari Petani';
+    late String currentCariUser;
+
+    if (role == 'petani') {
+      currentCariUser = cariPasar;
+    } else {
+      currentCariUser = cariPetani;
+    }
+
     switch (role) {
       case 'petani':
         scaffoldTitle = 'Produk Panen Anda';
@@ -68,15 +91,15 @@ class _InventoryPageState extends State<InventoryPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               CustSearchBox(),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     scaffoldTitle,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -84,74 +107,81 @@ class _InventoryPageState extends State<InventoryPage> {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CariUser(),
-                        ),
-                      );
+                      if (widget.user.role == 'petani') {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CariUser(role: 'pasar')),
+                        );
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CariUser(role: 'petani')),
+                        );
+                      }
                     },
                     child: Text(
-                      'Cari Petani',
+                      currentCariUser,
                       style: TextStyle(
                         color: AppTheme.colorBlue,
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    height: 28,
-                    decoration: ShapeDecoration(
-                      shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                            width: 1, color: Color(0xFF78287E)),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: const Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Terjual",
-                        style: TextStyle(
-                          color: Color(0xFF78287E),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    height: 28,
-                    decoration: ShapeDecoration(
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(width: 1, color: Color(0xFF78287E)),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Belum Terjual",
-                        style: TextStyle(
-                          color: Color(0xFF78287E),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
                   )
                 ],
               ),
+              SizedBox(height: 8),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.start,
+              //   children: [
+              //     Container(
+              //       padding: const EdgeInsets.symmetric(horizontal: 8),
+              //       height: 28,
+              //       decoration: ShapeDecoration(
+              //         shape: RoundedRectangleBorder(
+              //           side: const BorderSide(
+              //               width: 1, color: Color(0xFF78287E)),
+              //           borderRadius: BorderRadius.circular(8),
+              //         ),
+              //       ),
+              // child: const Align(
+              //   alignment: Alignment.center,
+              //   child: Text(
+              //     "Terjual",
+              //     style: TextStyle(
+              //       color: Color(0xFF78287E),
+              //       fontSize: 12,
+              //       fontWeight: FontWeight.w500,
+              //     ),
+              //   ),
+              // ),
+              //     ),
+              //     const SizedBox(width: 8),
+              //     Container(
+              //       padding: const EdgeInsets.symmetric(horizontal: 8),
+              //       height: 28,
+              //       decoration: ShapeDecoration(
+              //         shape: RoundedRectangleBorder(
+              //           side: BorderSide(width: 1, color: Color(0xFF78287E)),
+              //           borderRadius: BorderRadius.circular(8),
+              //         ),
+              //       ),
+              //       child: Align(
+              //         alignment: Alignment.center,
+              //         child: Text(
+              //           "Belum Terjual",
+              //           style: TextStyle(
+              //             color: Color(0xFF78287E),
+              //             fontSize: 12,
+              //             fontWeight: FontWeight.w500,
+              //           ),
+              //         ),
+              //       ),
+              //     )
+              //   ],
+              // ),
               const SizedBox(height: 8),
               FutureBuilder(
                   future: _futureItems,
@@ -169,7 +199,9 @@ class _InventoryPageState extends State<InventoryPage> {
                         shrinkWrap: true,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2, crossAxisSpacing: 16),
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 16,
+                                mainAxisSpacing: 16),
                         itemCount: items.length,
                         itemBuilder: (context, index) {
                           var item = items[index];
@@ -179,6 +211,9 @@ class _InventoryPageState extends State<InventoryPage> {
                             tanggal: item.tanggalPanen,
                             harga: item.price,
                             item: item,
+                            voidCallback: () {
+                              refresh();
+                            },
                           );
                         },
                       );
@@ -197,6 +232,9 @@ class _InventoryPageState extends State<InventoryPage> {
                       builder: (context) => AddProductPage(
                             scaffoldkey: widget.scaffoldkey,
                             user: widget.user,
+                            onRefresh: () {
+                              refresh();
+                            },
                           )),
                 );
                 if (result == true) {

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_smartbawangv2/db_local/auth/auth_controller.dart';
+// import 'package:flutter_smartbawangv2/db_local/auth/auth_controller.dart';
 import 'package:flutter_smartbawangv2/db_local/auth/auth_service.dart';
 import 'package:flutter_smartbawangv2/db_local/user_model.dart';
+import 'package:flutter_smartbawangv2/shared/capitalize_string.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
 import 'package:flutter_smartbawangv2/state/intro.dart';
-import 'package:flutter_smartbawangv2/state/login_register/states/loginpage.dart';
+// import 'package:flutter_smartbawangv2/state/login_register/states/loginpage.dart';
 import 'package:flutter_smartbawangv2/state/materials/button.dart';
 import 'package:provider/provider.dart';
 
@@ -75,6 +76,13 @@ class _ProfileMenuPage extends State<ProfileMenuPage> {
                           ),
                           Text(
                             widget.user.nomorHp,
+                            style: TextStyle(
+                                color: Colors.black.withOpacity(0.54),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400),
+                          ),
+                          Text(
+                            "${capitalize(widget.user.kota)}, ${widget.user.provinsi}",
                             style: TextStyle(
                                 color: Colors.black.withOpacity(0.54),
                                 fontSize: 14,

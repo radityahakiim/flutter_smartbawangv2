@@ -9,8 +9,12 @@ import 'package:flutter_smartbawangv2/state/materials/textbox.dart';
 class AddProductPage extends StatefulWidget {
   final User user;
   final GlobalKey<ScaffoldMessengerState> scaffoldkey;
+  final VoidCallback onRefresh;
   const AddProductPage(
-      {super.key, required this.scaffoldkey, required this.user});
+      {super.key,
+      required this.scaffoldkey,
+      required this.user,
+      required this.onRefresh});
 
   @override
   State<AddProductPage> createState() => _AddProductPage();
@@ -114,6 +118,7 @@ class _AddProductPage extends State<AddProductPage> {
           text: 'Tambah Produk',
           onPressed: () async {
             itemController.addItems(context, widget.scaffoldkey, widget.user);
+            widget.onRefresh();
             Navigator.pop(context, true);
           },
         ),

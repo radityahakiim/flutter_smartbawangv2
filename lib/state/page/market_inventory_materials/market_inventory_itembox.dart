@@ -11,6 +11,7 @@ class MarketInvItemBox extends StatelessWidget {
   final String title;
   final DateTime tanggal;
   final double harga;
+  final VoidCallback voidCallback;
 
   const MarketInvItemBox({
     Key? key,
@@ -19,6 +20,7 @@ class MarketInvItemBox extends StatelessWidget {
     required this.tanggal,
     required this.harga,
     required this.item,
+    required this.voidCallback,
   }) : super(key: key);
 
   @override
@@ -45,6 +47,7 @@ class MarketInvItemBox extends StatelessWidget {
                   MaterialPageRoute(
                       builder: ((context) => InventoryProductPage(
                             item: item,
+                            onRefresh: voidCallback,
                           ))));
             },
             borderRadius: BorderRadius.circular(8),
@@ -55,7 +58,7 @@ class MarketInvItemBox extends StatelessWidget {
                   children: [
                     ClipRRect(
                       borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(8)),
+                          const BorderRadius.vertical(top: Radius.circular(8)),
                       child: Container(
                         height: 70,
                         decoration: BoxDecoration(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_smartbawangv2/db_local/db_helper.dart';
+import 'package:flutter_smartbawangv2/shared/capitalize_string.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
 import 'package:flutter_smartbawangv2/state/materials/searchbox.dart';
 import 'package:flutter_smartbawangv2/state/page/cari_user/cariuser_materials/kota_itembox.dart';
@@ -6,20 +8,39 @@ import 'package:flutter_smartbawangv2/state/page/cari_user/cariuser_materials/us
 import 'package:flutter_smartbawangv2/state/page/cari_user/market_overview_page.dart';
 
 class CariUser extends StatefulWidget {
-  const CariUser({super.key});
+  final String role;
+  const CariUser({super.key, required this.role});
 
   @override
   State<CariUser> createState() => _CariUser();
 }
 
 class _CariUser extends State<CariUser> {
+  late String role;
+  late Future<List<Map<String, String>>>? kotaAndProvList;
+  @override
+  void initState() {
+    super.initState();
+    role = widget.role;
+    kotaAndProvList = DBHelper.db.getKotaAndProvinsiListByRole(role);
+  }
+
+  void updateRole(String newRole) {
+    setState(() {
+      role = newRole;
+      kotaAndProvList = DBHelper.db.getKotaAndProvinsiListByRole(role);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    String capitalizedRole = capitalize(widget.role);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
         title: Text(
-          "Cari Petani",
+          "Cari $capitalizedRole",
           style: TextStyle(
             color: Colors.white,
             fontSize: 20,
@@ -31,19 +52,19 @@ class _CariUser extends State<CariUser> {
         backgroundColor: AppTheme.primaryColor,
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         child: Column(
           children: [
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             CustSearchBox(),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Petani terakhir',
+                    '$capitalizedRole terakhir',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -71,29 +92,28 @@ class _CariUser extends State<CariUser> {
               children: [
                 CariPetaniItemBox(
                     imageasset: 'assets/fotosawah.png',
-                    title: "Sawah A",
-                    tempat: 'Brebes, Jawa Tengah',
+                    title: "Tes",
+                    tempat: 'Lorem Ipsum dolor sit amet',
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) =>
-                                  MarketOverviewPagePage())));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: ((context) => MarketOverviewPage())));
                     }),
                 CariPetaniItemBox(
                   imageasset: 'assets/fotosawah.png',
-                  title: "Sawah A",
-                  tempat: 'Brebes, Jawa Tengah',
+                  title: "Tes",
+                  tempat: 'Lorem Ipsum Dolor sit amet',
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: ((context) => MarketOverviewPagePage())));
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: ((context) => MarketOverviewPage())));
                   },
                 ),
               ],
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -106,10 +126,37 @@ class _CariUser extends State<CariUser> {
                 ),
               ),
             ),
-            SizedBox(height: 8),
-            KotaItemBox(
-              kota: 'Brebes, Jawa Tengah',
-              avgHarga: "Rp12.000",
+            const SizedBox(height: 8),
+            Container(
+              height: 400,
+              width: MediaQuery.of(context).size.width,
+              child: FutureBuilder(
+                  future: kotaAndProvList,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return const Center(child: Text('No city found.'));
+                    } else {
+                      return ListView.separated(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          final item = snapshot.data![index];
+                          return KotaItemBox(
+                            kota: item['kota']!,
+                            prov: item['provinsi']!,
+                            avgHarga: "Rp13.000",
+                            role: role,
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return const SizedBox(height: 12);
+                        },
+                      );
+                    }
+                  }),
             )
           ],
         ),

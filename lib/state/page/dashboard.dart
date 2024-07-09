@@ -23,9 +23,19 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPage extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
+    String role = widget.user.role;
+    late String titleForInv;
+    switch (role) {
+      case 'petani':
+        titleForInv = 'Produk Panen Anda';
+      case 'pasar':
+        titleForInv = 'Produk di pasar Anda';
+      case 'pengepul':
+        titleForInv = 'Produk warehouse Anda';
+    }
     return Scaffold(
         appBar: PreferredSize(
-            preferredSize: Size.fromHeight(130),
+            preferredSize: const Size.fromHeight(130),
             child: Column(children: [
               Container(
                 // Header dari dashboard page
@@ -37,7 +47,8 @@ class _DashboardPage extends State<DashboardPage> {
                             bottomLeft: Radius.circular(10),
                             bottomRight: Radius.circular(10)))),
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   child: Column(
                     children: [
                       const SizedBox(height: 16),
@@ -93,12 +104,15 @@ class _DashboardPage extends State<DashboardPage> {
                       const SizedBox(height: 30),
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Selamat Datang, ${widget.user.namaLengkap}!",
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
-                            fontWeight: FontWeight.w600,
+                        child: FittedBox(
+                          fit: BoxFit.fitWidth,
+                          child: Text(
+                            "Selamat Datang, ${widget.user.namaLengkap}!",
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),
@@ -150,13 +164,25 @@ class _DashboardPage extends State<DashboardPage> {
                     children: [
                       DashboardButton(
                           iconData: Icons.search,
-                          text: "Cari Petani/Pasar",
+                          text: widget.user.role == 'petani'
+                              ? "Cari Pasar"
+                              : "Cari Petani/Pasar",
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CariUser()),
-                            );
+                            if (widget.user.role == 'petani') {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        CariUser(role: 'pasar')),
+                              );
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        CariUser(role: 'petani')),
+                              );
+                            }
                           }),
                       DashboardButton(
                           iconData: Icons.store,
@@ -187,7 +213,7 @@ class _DashboardPage extends State<DashboardPage> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          'Produk di warehouse anda',
+                          titleForInv,
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 16,

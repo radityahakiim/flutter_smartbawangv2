@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_smartbawangv2/db_local/item_model.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
+import 'package:flutter_smartbawangv2/state/page/inventory/product_page.dart';
 // import 'package:flutter_smartbawangv2/state/page/inventory/product_page_test.dart';
+import 'package:flutter_smartbawangv2/shared/rupiah_convert.dart';
 
-class TestMarketInvItemBox extends StatelessWidget {
+class OverviewMarketItemPage extends StatelessWidget {
+  final Item item;
   final String imageasset;
   final String title;
-  final String tanggal;
-  final String harga;
+  final DateTime tanggal;
+  final double harga;
+  final VoidCallback voidCallback;
 
-  const TestMarketInvItemBox({
+  const OverviewMarketItemPage({
     Key? key,
     required this.imageasset,
     required this.title,
     required this.tanggal,
     required this.harga,
+    required this.item,
+    required this.voidCallback,
   }) : super(key: key);
 
   @override
@@ -35,10 +42,13 @@ class TestMarketInvItemBox extends StatelessWidget {
           color: Colors.transparent,
           child: InkWell(
             onTap: () {
-              // Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: ((context) => InventoryProductPageTest())));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: ((context) => InventoryProductPage(
+                            item: item,
+                            onRefresh: voidCallback,
+                          ))));
             },
             borderRadius: BorderRadius.circular(8),
             child: Column(
@@ -48,7 +58,7 @@ class TestMarketInvItemBox extends StatelessWidget {
                   children: [
                     ClipRRect(
                       borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(8)),
+                          const BorderRadius.vertical(top: Radius.circular(8)),
                       child: Container(
                         height: 70,
                         decoration: BoxDecoration(
@@ -62,7 +72,7 @@ class TestMarketInvItemBox extends StatelessWidget {
                   ],
                 ),
                 Container(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -70,7 +80,7 @@ class TestMarketInvItemBox extends StatelessWidget {
                           alignment: Alignment.centerLeft,
                           child: Text(
                             title,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.black,
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
@@ -81,7 +91,7 @@ class TestMarketInvItemBox extends StatelessWidget {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            harga,
+                            formatRupiah(harga),
                             style: TextStyle(
                               color: AppTheme.primaryColor,
                               fontSize: 14,
@@ -105,7 +115,7 @@ class TestMarketInvItemBox extends StatelessWidget {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            tanggal,
+                            '${tanggal.toLocal()}'.split(' ')[0],
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 12,

@@ -74,6 +74,27 @@ class DBHelper {
     return null;
   }
 
+  Future<List<Map<String, dynamic>>> getUsersByKotaAndRole(
+      String kota, String role) async {
+    final db = await database;
+    final res = await db.query('users',
+        where: 'kota = ? AND role = ?', whereArgs: [kota, role]);
+    return res;
+  }
+
+  Future<List<Map<String, String>>> getKotaAndProvinsiListByRole(
+      String role) async {
+    final db = await database;
+    final res = await db.rawQuery(
+        'SELECT DISTINCT kota, provinsi FROM users WHERE role = ?', [role]);
+    return res
+        .map((json) => {
+              'kota': json['kota'] as String,
+              'provinsi': json['provinsi'] as String
+            })
+        .toList();
+  }
+
   // Cek kalau user sudah ada
   Future<bool> userExists(String email, String phone) async {
     final db = await database;

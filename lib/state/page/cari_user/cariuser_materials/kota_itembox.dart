@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_smartbawangv2/shared/capitalize_string.dart';
 import 'package:flutter_smartbawangv2/state/page/cari_user/group_by_city_page.dart';
 
 class KotaItemBox extends StatefulWidget {
   final String kota;
+  final String prov;
+  final String? role;
   final String avgHarga;
-  const KotaItemBox({super.key, required this.kota, required this.avgHarga});
+  const KotaItemBox(
+      {super.key,
+      required this.kota,
+      required this.avgHarga,
+      this.role,
+      required this.prov});
 
   @override
   State<KotaItemBox> createState() => _KotaItemBoxState();
@@ -32,7 +40,12 @@ class _KotaItemBoxState extends State<KotaItemBox> {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => GroupByCityPage()),
+              MaterialPageRoute(
+                  builder: (context) => GroupByCityPage(
+                        kota: widget.kota,
+                        role: widget.role!,
+                        prov: widget.prov,
+                      )),
             );
           },
           borderRadius: BorderRadius.circular(10),
@@ -40,7 +53,7 @@ class _KotaItemBoxState extends State<KotaItemBox> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                widget.kota,
+                "${capitalize(widget.kota)}, ${widget.prov}",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 14,

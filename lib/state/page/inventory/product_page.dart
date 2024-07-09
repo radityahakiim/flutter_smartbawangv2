@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_smartbawangv2/db_local/item/item_service.dart';
 import 'package:flutter_smartbawangv2/db_local/item_model.dart';
 import 'package:flutter_smartbawangv2/shared/rupiah_convert.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
@@ -7,8 +8,10 @@ import 'package:intl/intl.dart';
 
 class InventoryProductPage extends StatefulWidget {
   final Item item;
+  final VoidCallback onRefresh;
 
-  const InventoryProductPage({super.key, required this.item});
+  const InventoryProductPage(
+      {super.key, required this.item, required this.onRefresh});
   @override
   State<InventoryProductPage> createState() => _InventoryProductPageState();
 }
@@ -16,14 +19,16 @@ class InventoryProductPage extends StatefulWidget {
 class _InventoryProductPageState extends State<InventoryProductPage> {
   @override
   Widget build(BuildContext context) {
+    ItemService itemService = ItemService();
     String idBarang = widget.item.id.toString();
     String harga = formatRupiah(widget.item.price);
     String tanggalPanen =
         DateFormat('d MMM yyyy').format(widget.item.tanggalPanen);
+    String jumlahSupply = widget.item.quantity.toString();
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(
+        title: const Text(
           "Info Produk",
           style: TextStyle(
             color: Colors.white,
@@ -35,7 +40,7 @@ class _InventoryProductPageState extends State<InventoryProductPage> {
         ),
         backgroundColor: AppTheme.primaryColor,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: Colors.white,
           ),
@@ -63,12 +68,12 @@ class _InventoryProductPageState extends State<InventoryProductPage> {
                 ),
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 widget.item.itemName,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Color(0xFF333333),
                   fontSize: 26,
                   fontWeight: FontWeight.w800,
@@ -80,7 +85,7 @@ class _InventoryProductPageState extends State<InventoryProductPage> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   "$harga/kg",
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Color(0xFF78287E),
                     fontSize: 24,
                     fontWeight: FontWeight.w700,
@@ -169,8 +174,8 @@ class _InventoryProductPageState extends State<InventoryProductPage> {
             //     )
             //   ]),
             // ),
-            SizedBox(height: 8),
-            Align(
+            const SizedBox(height: 8),
+            const Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 'Deskripsi Produk',
@@ -182,13 +187,13 @@ class _InventoryProductPageState extends State<InventoryProductPage> {
                 ),
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 widget.item.itemDesc,
                 textAlign: TextAlign.justify,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Color(0xFF393939),
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
@@ -209,11 +214,11 @@ class _InventoryProductPageState extends State<InventoryProductPage> {
             //     ),
             //   ),
             // ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             Container(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               height: 128,
               decoration: ShapeDecoration(
                 color: AppTheme.secondaryColor,
@@ -223,7 +228,7 @@ class _InventoryProductPageState extends State<InventoryProductPage> {
               ),
               child: Column(
                 children: [
-                  Align(
+                  const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       'Informasi Panen Bawang',
@@ -236,9 +241,9 @@ class _InventoryProductPageState extends State<InventoryProductPage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Container(
-                    padding: EdgeInsets.all(6),
+                    padding: const EdgeInsets.all(6),
                     height: 78,
                     decoration: ShapeDecoration(
                       color: Colors.white,
@@ -252,7 +257,7 @@ class _InventoryProductPageState extends State<InventoryProductPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
+                              const Text(
                                 'ID Produk',
                                 style: TextStyle(
                                   color: Colors.black,
@@ -264,7 +269,7 @@ class _InventoryProductPageState extends State<InventoryProductPage> {
                               Text(
                                 '#$idBarang',
                                 textAlign: TextAlign.right,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 12,
                                   fontWeight: FontWeight.w700,
@@ -276,7 +281,7 @@ class _InventoryProductPageState extends State<InventoryProductPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
+                              const Text(
                                 'Tanggal Panen',
                                 style: TextStyle(
                                   color: Colors.black,
@@ -288,7 +293,7 @@ class _InventoryProductPageState extends State<InventoryProductPage> {
                               Text(
                                 tanggalPanen,
                                 textAlign: TextAlign.right,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 12,
                                   fontWeight: FontWeight.w700,
@@ -300,7 +305,7 @@ class _InventoryProductPageState extends State<InventoryProductPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
+                              const Text(
                                 'Supply Produk di Pasar',
                                 style: TextStyle(
                                   color: Colors.black,
@@ -310,9 +315,9 @@ class _InventoryProductPageState extends State<InventoryProductPage> {
                                 ),
                               ),
                               Text(
-                                '2.000kg',
+                                "$jumlahSupply kg",
                                 textAlign: TextAlign.right,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 12,
                                   fontWeight: FontWeight.w700,
@@ -326,6 +331,33 @@ class _InventoryProductPageState extends State<InventoryProductPage> {
                 ],
               ),
             )
+          ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      resizeToAvoidBottomInset: false,
+      floatingActionButton: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CustomButton(
+              text: 'Hapus Produk',
+              isCustomSize: true,
+              custWidth: 150,
+              onPressed: () async {
+                itemService.deleteItem(widget.item.id!);
+                widget.onRefresh();
+                Navigator.pop(context);
+              },
+            ),
+            CustomButton(
+              text: 'Ubah Produk',
+              isCustomSize: true,
+              isWhiteButton: true,
+              custWidth: 150,
+              onPressed: () {},
+            ),
           ],
         ),
       ),

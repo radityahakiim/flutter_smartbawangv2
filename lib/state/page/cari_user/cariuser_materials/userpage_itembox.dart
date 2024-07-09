@@ -24,7 +24,7 @@ class _CariPetaniItemBoxState extends State<CariPetaniItemBox> {
   Widget build(BuildContext context) {
     return Container(
         width: 180,
-        height: 110,
+        height: 102,
         decoration: ShapeDecoration(
           color: Colors.white,
           shape: RoundedRectangleBorder(
@@ -69,13 +69,16 @@ class _CariPetaniItemBoxState extends State<CariPetaniItemBox> {
                         color: Colors.black.withOpacity(0.45),
                         child: Align(
                           alignment: Alignment.bottomLeft,
-                          child: Text(
-                            widget.title,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              height: 0,
+                          child: FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: Text(
+                              widget.title,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                height: 0,
+                              ),
                             ),
                           ),
                         ),
@@ -92,7 +95,10 @@ class _CariPetaniItemBoxState extends State<CariPetaniItemBox> {
                         SizedBox(width: 8),
                         Icon(Icons.pin_drop, size: 12),
                         SizedBox(width: 10),
-                        Text(widget.tempat, style: TextStyle(fontSize: 10))
+                        FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: Text(widget.tempat,
+                                style: TextStyle(fontSize: 10)))
                       ],
                     ),
                   ),

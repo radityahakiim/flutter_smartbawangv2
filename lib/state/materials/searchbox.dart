@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CustSearchBox extends StatefulWidget {
-  const CustSearchBox({super.key});
+  final TextEditingController? searchCtrl;
+  const CustSearchBox({super.key, this.searchCtrl});
 
   @override
   State<CustSearchBox> createState() => _CustSearchBox();
@@ -15,10 +16,10 @@ class _CustSearchBox extends State<CustSearchBox> {
       height: 50, // Set your desired height
       decoration: BoxDecoration(
         color: Colors.grey[200], // Set your desired background color
-        borderRadius: BorderRadius.all(Radius.circular(25.0)),
+        borderRadius: const BorderRadius.all(Radius.circular(25.0)),
       ),
       child: TextField(
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           labelText: "Search",
           hintText: "Search",
           prefixIcon: Icon(Icons.search),
@@ -27,6 +28,7 @@ class _CustSearchBox extends State<CustSearchBox> {
             borderSide: BorderSide.none, // Remove border
           ),
         ),
+        controller: widget.searchCtrl,
       ),
     );
   }
