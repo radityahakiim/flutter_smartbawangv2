@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smartbawangv2/db_local/db_helper.dart';
+import 'package:flutter_smartbawangv2/db_local/user_model.dart';
 import 'package:flutter_smartbawangv2/shared/capitalize_string.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
 import 'package:flutter_smartbawangv2/state/materials/searchbox.dart';
@@ -8,8 +9,9 @@ import 'package:flutter_smartbawangv2/state/page/cari_user/cariuser_materials/us
 import 'package:flutter_smartbawangv2/state/page/cari_user/market_overview_page.dart';
 
 class CariUser extends StatefulWidget {
+  final User user;
   final String role;
-  const CariUser({super.key, required this.role});
+  const CariUser({super.key, required this.role, required this.user});
 
   @override
   State<CariUser> createState() => _CariUser();
@@ -30,6 +32,18 @@ class _CariUser extends State<CariUser> {
       role = newRole;
       kotaAndProvList = DBHelper.db.getKotaAndProvinsiListByRole(role);
     });
+  }
+
+  String secondTitle(String role) {
+    switch (role) {
+      case 'pasar':
+        return 'pasar';
+      case 'petani':
+        return 'pertanian';
+      case 'pengepul':
+        return 'warehouse';
+    }
+    return '';
   }
 
   @override
@@ -99,7 +113,8 @@ class _CariUser extends State<CariUser> {
                       //     context,
                       //     MaterialPageRoute(
                       //         builder: ((context) => MarketOverviewPage())));
-                    }),
+                    },
+                    user: widget.user),
                 CariPetaniItemBox(
                   imageasset: 'assets/fotosawah.png',
                   title: "Tes",
@@ -110,6 +125,7 @@ class _CariUser extends State<CariUser> {
                     //     MaterialPageRoute(
                     //         builder: ((context) => MarketOverviewPage())));
                   },
+                  user: widget.user,
                 ),
               ],
             ),
@@ -117,7 +133,7 @@ class _CariUser extends State<CariUser> {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                'Pilih kota dengan pertanian bawang',
+                'Pilih kota dengan ${secondTitle(role)} bawang',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20,
@@ -149,6 +165,7 @@ class _CariUser extends State<CariUser> {
                             prov: item['provinsi']!,
                             avgHarga: "Rp13.000",
                             role: role,
+                            user: widget.user,
                           );
                         },
                         separatorBuilder: (BuildContext context, int index) {

@@ -19,4 +19,8 @@ class ItemService {
   Future<int> updateItemOwnership(int itemId, int newOwnerId) async {
     return await _dbHelper.updateItemOwner(itemId, newOwnerId);
   }
+
+  Future<List<Item>> getPetaniItemsfromUser(int userId, int petaniId) async {
+    return await _dbHelper.getUserItemsPetani(userId, petaniId);
+  }
 }

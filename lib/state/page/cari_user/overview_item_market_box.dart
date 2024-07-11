@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smartbawangv2/db_local/item_model.dart';
+import 'package:flutter_smartbawangv2/db_local/user_model.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
+import 'package:flutter_smartbawangv2/state/page/cari_user/product_page_overview.dart';
 import 'package:flutter_smartbawangv2/state/page/inventory/product_page.dart';
 // import 'package:flutter_smartbawangv2/state/page/inventory/product_page_test.dart';
 import 'package:flutter_smartbawangv2/shared/rupiah_convert.dart';
 
-class OverviewMarketItemPage extends StatelessWidget {
+class OverviewMarketItemBox extends StatelessWidget {
   final Item item;
   final String imageasset;
   final String title;
   final DateTime tanggal;
   final double harga;
+  final User user;
   final VoidCallback voidCallback;
 
-  const OverviewMarketItemPage({
+  const OverviewMarketItemBox({
     Key? key,
     required this.imageasset,
     required this.title,
@@ -21,6 +24,7 @@ class OverviewMarketItemPage extends StatelessWidget {
     required this.harga,
     required this.item,
     required this.voidCallback,
+    required this.user,
   }) : super(key: key);
 
   @override
@@ -45,9 +49,12 @@ class OverviewMarketItemPage extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: ((context) => InventoryProductPage(
+                      builder: ((context) => InventoryProductOverviewPage(
                             item: item,
-                            onRefresh: voidCallback,
+                            onRefresh: () {
+                              voidCallback();
+                            },
+                            user: user,
                           ))));
             },
             borderRadius: BorderRadius.circular(8),

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smartbawangv2/db_local/item/item_service.dart';
+import 'package:flutter_smartbawangv2/db_local/user_model.dart';
 import 'package:flutter_smartbawangv2/shared/capitalize_string.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
 import 'package:flutter_smartbawangv2/state/materials/button.dart';
 import 'package:flutter_smartbawangv2/state/materials/searchbox.dart';
-import 'package:flutter_smartbawangv2/state/page/cari_user/overview_item_market_page.dart';
-import 'package:flutter_smartbawangv2/state/page/market_inventory_materials/market_inventory_itembox.dart';
+import 'package:flutter_smartbawangv2/state/page/cari_user/overview_item_market_box.dart';
+import 'package:flutter_smartbawangv2/state/page/dashboard_materials/dashboard_box.dart';
+// import 'package:flutter_smartbawangv2/state/page/market_inventory_materials/market_inventory_itembox.dart';
 // import 'package:flutter_smartbawangv2/state/page/market_inventory_materials/market_inventory_itembox.dart';
 // import 'package:flutter_smartbawangv2/state/page/market_inventory_materials/test_market_inv_itembox.dart';
 
@@ -16,6 +18,8 @@ class MarketOverviewPage extends StatefulWidget {
   final String prov;
   final String role;
   final int? id;
+  final User user;
+  final VoidCallback? voidCallback;
   const MarketOverviewPage({
     super.key,
     required this.namaBisnis,
@@ -24,6 +28,8 @@ class MarketOverviewPage extends StatefulWidget {
     required this.prov,
     required this.role,
     this.id,
+    required this.user,
+    this.voidCallback,
   });
 
   @override
@@ -151,11 +157,14 @@ class _MarketOverviewPage extends State<MarketOverviewPage> {
             //         harga: "Rp12.000")
             //   ],
             // ),
+            widget.role == 'pasar' ? DashboardBox() : SizedBox(),
             SizedBox(height: 8),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                'Produk Lainnya',
+                widget.user.role == 'petani'
+                    ? 'Produk anda di Pasar ini'
+                    : 'Produk yang tersedia',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 16,
@@ -166,7 +175,10 @@ class _MarketOverviewPage extends State<MarketOverviewPage> {
             ),
             SizedBox(height: 8),
             FutureBuilder(
-                future: ItemService().getItemsByUser(widget.id!),
+                future: widget.user.role == 'petani'
+                    ? ItemService()
+                        .getPetaniItemsfromUser(widget.id!, widget.user.id!)
+                    : ItemService().getItemsByUser(widget.id!),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
@@ -187,14 +199,15 @@ class _MarketOverviewPage extends State<MarketOverviewPage> {
                       itemCount: items.length,
                       itemBuilder: (context, index) {
                         var item = items[index];
-                        return OverviewMarketItemPage(
+                        return OverviewMarketItemBox(
+                          user: widget.user,
                           imageasset: 'assets/bawang.png',
                           title: item.itemName,
                           tanggal: item.tanggalPanen,
                           harga: item.price,
                           item: item,
                           voidCallback: () {
-                            // refresh();
+                            widget.voidCallback!();
                           },
                         );
                       },

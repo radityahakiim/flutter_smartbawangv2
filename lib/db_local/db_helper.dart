@@ -119,7 +119,13 @@ class DBHelper {
     final db = await database;
     final res =
         await db.query('items', where: 'user_id = ?', whereArgs: [userId]);
+    return res.isNotEmpty ? res.map((c) => Item.fromMap(c)).toList() : [];
+  }
 
+  Future<List<Item>> getUserItemsPetani(int userId, int petaniId) async {
+    final db = await database;
+    final res = await db.query('items',
+        where: 'user_id = ? AND petani_id = ?', whereArgs: [userId, petaniId]);
     return res.isNotEmpty ? res.map((c) => Item.fromMap(c)).toList() : [];
   }
 

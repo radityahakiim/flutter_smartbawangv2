@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smartbawangv2/db_local/db_helper.dart';
+import 'package:flutter_smartbawangv2/db_local/user_model.dart';
 import 'package:flutter_smartbawangv2/shared/capitalize_string.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
 import 'package:flutter_smartbawangv2/state/materials/searchbox.dart';
@@ -11,14 +12,31 @@ class GroupByCityPage extends StatefulWidget {
   final String kota;
   final String role;
   final String prov;
+  final User user;
   const GroupByCityPage(
-      {super.key, required this.kota, required this.role, required this.prov});
+      {super.key,
+      required this.kota,
+      required this.role,
+      required this.prov,
+      required this.user});
 
   @override
   State<GroupByCityPage> createState() => _GroupByCityPage();
 }
 
 class _GroupByCityPage extends State<GroupByCityPage> {
+  String secondTitle(String role) {
+    switch (role) {
+      case 'pasar':
+        return 'pasar';
+      case 'petani':
+        return 'sawah';
+      case 'pengepul':
+        return 'warehouse';
+    }
+    return '';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +44,7 @@ class _GroupByCityPage extends State<GroupByCityPage> {
           centerTitle: false,
           title: Text(
             "${capitalize(widget.kota)}, ${widget.prov}",
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 20,
               fontWeight: FontWeight.w700,
@@ -46,7 +64,7 @@ class _GroupByCityPage extends State<GroupByCityPage> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Cari sawah di ${capitalize(widget.kota)}',
+                    'Cari ${secondTitle(widget.role)} di ${capitalize(widget.kota)}',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -78,24 +96,27 @@ class _GroupByCityPage extends State<GroupByCityPage> {
                           itemBuilder: (context, index) {
                             final user = snapshot.data![index];
                             return CariPetaniItemBox(
-                                imageasset: 'assets/fotosawah.png',
-                                title: user['namaBisnis'],
-                                tempat: user['alamatBisnis'],
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: ((context) =>
-                                              MarketOverviewPage(
-                                                  id: user['id'],
-                                                  namaBisnis:
-                                                      user['namaBisnis'],
-                                                  alamatBisnis:
-                                                      user['alamatBisnis'],
-                                                  kota: user['kota'],
-                                                  prov: user['provinsi'],
-                                                  role: user['role']))));
-                                });
+                              imageasset: 'assets/fotosawah.png',
+                              title: user['namaBisnis'],
+                              tempat: user['alamatBisnis'],
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: ((context) =>
+                                            MarketOverviewPage(
+                                                voidCallback: () {},
+                                                user: widget.user,
+                                                id: user['id'],
+                                                namaBisnis: user['namaBisnis'],
+                                                alamatBisnis:
+                                                    user['alamatBisnis'],
+                                                kota: user['kota'],
+                                                prov: user['provinsi'],
+                                                role: user['role']))));
+                              },
+                              user: widget.user,
+                            );
                           },
                         );
                       }

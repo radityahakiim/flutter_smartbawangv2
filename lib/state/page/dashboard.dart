@@ -172,15 +172,19 @@ class _DashboardPage extends State<DashboardPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        CariUser(role: 'pasar')),
+                                    builder: (context) => CariUser(
+                                          role: 'pasar',
+                                          user: widget.user,
+                                        )),
                               );
                             } else {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        CariUser(role: 'petani')),
+                                    builder: (context) => CariUser(
+                                          role: 'petani',
+                                          user: widget.user,
+                                        )),
                               );
                             }
                           }),

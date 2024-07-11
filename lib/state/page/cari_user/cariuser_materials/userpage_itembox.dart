@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_smartbawangv2/db_local/user_model.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
 
 class CariPetaniItemBox extends StatefulWidget {
@@ -6,6 +7,7 @@ class CariPetaniItemBox extends StatefulWidget {
   final String title;
   final String tempat;
   final VoidCallback onPressed;
+  final User user;
 
   const CariPetaniItemBox({
     Key? key,
@@ -13,6 +15,7 @@ class CariPetaniItemBox extends StatefulWidget {
     required this.title,
     required this.tempat,
     required this.onPressed,
+    required this.user,
   }) : super(key: key);
 
   @override
