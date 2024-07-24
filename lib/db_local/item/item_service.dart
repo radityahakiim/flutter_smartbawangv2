@@ -23,4 +23,8 @@ class ItemService {
   Future<List<Item>> getPetaniItemsfromUser(int userId, int petaniId) async {
     return await _dbHelper.getUserItemsPetani(userId, petaniId);
   }
+
+  Future<int> updateExistingItems(Item item) async {
+    return await _dbHelper.updateItem(item);
+  }
 }

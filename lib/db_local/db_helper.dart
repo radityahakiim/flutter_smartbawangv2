@@ -114,6 +114,11 @@ class DBHelper {
     return await db.insert('items', item.toMap());
   }
 
+  Future<int> updateItem(Item item) async {
+    final db = await database;
+    return await db.update('items', item.toMap());
+  }
+
   // get items by user
   Future<List<Item>> getUserItems(int userId) async {
     final db = await database;

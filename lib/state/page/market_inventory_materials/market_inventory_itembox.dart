@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smartbawangv2/db_local/item_model.dart';
+import 'package:flutter_smartbawangv2/db_local/user_model.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
 import 'package:flutter_smartbawangv2/state/page/inventory/product_page.dart';
 // import 'package:flutter_smartbawangv2/state/page/inventory/product_page_test.dart';
@@ -11,7 +12,9 @@ class MarketInvItemBox extends StatelessWidget {
   final String title;
   final DateTime tanggal;
   final double harga;
+  final User user;
   final VoidCallback voidCallback;
+  final GlobalKey<ScaffoldMessengerState> scaffoldkey;
 
   const MarketInvItemBox({
     Key? key,
@@ -21,6 +24,8 @@ class MarketInvItemBox extends StatelessWidget {
     required this.harga,
     required this.item,
     required this.voidCallback,
+    required this.user,
+    required this.scaffoldkey,
   }) : super(key: key);
 
   @override
@@ -48,6 +53,8 @@ class MarketInvItemBox extends StatelessWidget {
                       builder: ((context) => InventoryProductPage(
                             item: item,
                             onRefresh: voidCallback,
+                            user: user,
+                            scaffoldKey: scaffoldkey,
                           ))));
             },
             borderRadius: BorderRadius.circular(8),

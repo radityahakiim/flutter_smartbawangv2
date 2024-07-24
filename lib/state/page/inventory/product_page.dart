@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smartbawangv2/db_local/item/item_service.dart';
 import 'package:flutter_smartbawangv2/db_local/item_model.dart';
+import 'package:flutter_smartbawangv2/db_local/user_model.dart';
 import 'package:flutter_smartbawangv2/shared/rupiah_convert.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
 import 'package:flutter_smartbawangv2/state/materials/button.dart';
+// import 'package:flutter_smartbawangv2/state/page/inventory/add_product_page.dart';
+import 'package:flutter_smartbawangv2/state/page/inventory/update_product_page.dart';
 import 'package:intl/intl.dart';
 
 class InventoryProductPage extends StatefulWidget {
+  final User user;
   final Item item;
   final VoidCallback onRefresh;
+  final GlobalKey<ScaffoldMessengerState> scaffoldKey;
 
   const InventoryProductPage(
-      {super.key, required this.item, required this.onRefresh});
+      {super.key,
+      required this.item,
+      required this.onRefresh,
+      required this.user,
+      required this.scaffoldKey});
   @override
   State<InventoryProductPage> createState() => _InventoryProductPageState();
 }
@@ -356,7 +365,17 @@ class _InventoryProductPageState extends State<InventoryProductPage> {
               isCustomSize: true,
               isWhiteButton: true,
               custWidth: 150,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => UpdateProductPage(
+                          scaffoldkey: widget.scaffoldKey,
+                          item: widget.item,
+                          onRefresh: widget.onRefresh,
+                          user: widget.user)),
+                );
+              },
             ),
           ],
         ),

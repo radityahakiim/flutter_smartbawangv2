@@ -71,64 +71,64 @@ class _CariUser extends State<CariUser> {
           children: [
             const SizedBox(height: 8),
             CustSearchBox(),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    '$capitalizedRole terakhir',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      height: 0,
-                    ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {},
-                  child: Text(
-                    'Cari Pasar',
-                    style: TextStyle(
-                      color: AppTheme.colorBlue,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                CariPetaniItemBox(
-                    imageasset: 'assets/fotosawah.png',
-                    title: "Tes",
-                    tempat: 'Lorem Ipsum dolor sit amet',
-                    onPressed: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: ((context) => MarketOverviewPage())));
-                    },
-                    user: widget.user),
-                CariPetaniItemBox(
-                  imageasset: 'assets/fotosawah.png',
-                  title: "Tes",
-                  tempat: 'Lorem Ipsum Dolor sit amet',
-                  onPressed: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: ((context) => MarketOverviewPage())));
-                  },
-                  user: widget.user,
-                ),
-              ],
-            ),
+            // const SizedBox(height: 10),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Align(
+            //       alignment: Alignment.centerLeft,
+            //       child: Text(
+            //         '$capitalizedRole terakhir',
+            //         style: TextStyle(
+            //           color: Colors.black,
+            //           fontSize: 20,
+            //           fontWeight: FontWeight.w700,
+            //           height: 0,
+            //         ),
+            //       ),
+            //     ),
+            //     InkWell(
+            //       onTap: () {},
+            //       child: Text(
+            //         'Cari Pasar',
+            //         style: TextStyle(
+            //           color: AppTheme.colorBlue,
+            //           fontSize: 16,
+            //           fontWeight: FontWeight.w600,
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            // SizedBox(height: 10),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //   children: [
+            //     CariPetaniItemBox(
+            //         imageasset: 'assets/fotosawah.png',
+            //         title: "Tes",
+            //         tempat: 'Lorem Ipsum dolor sit amet',
+            //         onPressed: () {
+            //           // Navigator.push(
+            //           //     context,
+            //           //     MaterialPageRoute(
+            //           //         builder: ((context) => MarketOverviewPage())));
+            //         },
+            //         user: widget.user),
+            //     CariPetaniItemBox(
+            //       imageasset: 'assets/fotosawah.png',
+            //       title: "Tes",
+            //       tempat: 'Lorem Ipsum Dolor sit amet',
+            //       onPressed: () {
+            //         // Navigator.push(
+            //         //     context,
+            //         //     MaterialPageRoute(
+            //         //         builder: ((context) => MarketOverviewPage())));
+            //       },
+            //       user: widget.user,
+            //     ),
+            //   ],
+            // ),
             const SizedBox(height: 8),
             Align(
               alignment: Alignment.centerLeft,

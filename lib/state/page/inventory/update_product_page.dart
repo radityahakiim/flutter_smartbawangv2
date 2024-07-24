@@ -1,40 +1,55 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_smartbawangv2/db_local/item/item_controller.dart';
+//import 'package:flutter_smartbawangv2/db_local/item/item_controller.dart';
+import 'package:flutter_smartbawangv2/db_local/item/item_controller_update.dart';
+import 'package:flutter_smartbawangv2/db_local/item_model.dart';
 import 'package:flutter_smartbawangv2/db_local/user_model.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
 import 'package:flutter_smartbawangv2/state/materials/button.dart';
 import 'package:flutter_smartbawangv2/state/materials/textbox.dart';
 // import 'package:provider/provider.dart';
 
-class AddProductPage extends StatefulWidget {
+class UpdateProductPage extends StatefulWidget {
+  final Item item;
   final User user;
   final GlobalKey<ScaffoldMessengerState> scaffoldkey;
   final VoidCallback onRefresh;
-  const AddProductPage({
+
+  const UpdateProductPage({
     super.key,
     required this.scaffoldkey,
-    required this.user,
+    required this.item,
     required this.onRefresh,
+    required this.user,
   });
 
   @override
-  State<AddProductPage> createState() => _AddProductPage();
+  State<UpdateProductPage> createState() => _UpdateProductPage();
 }
 
-class _AddProductPage extends State<AddProductPage> {
+class _UpdateProductPage extends State<UpdateProductPage> {
+  late ItemControllerUpdate itemControllerUpdate;
   final List<Map<String, String>> dropdownSatuan = [
     {"display": "Kg", "value": "kg"},
     {"display": "Ton", "value": "ton"},
   ];
 
   @override
+  void initState() {
+    super.initState();
+    itemControllerUpdate = ItemControllerUpdate(
+        namaProduk: widget.item.itemName,
+        deskripsiProduk: widget.item.itemDesc,
+        jumlahProduk: widget.item.quantity.toString(),
+        hargaPerKg: widget.item.price.toString());
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final itemController = ItemController();
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
         title: Text(
-          "Tambah Produk",
+          "Update Produk",
           style: const TextStyle(
             color: Colors.white,
             fontSize: 20,
@@ -67,7 +82,7 @@ class _AddProductPage extends State<AddProductPage> {
                   custHeight: 75,
                   useCounter: true,
                   maxLength: 40,
-                  controller: itemController.namaProdukController,
+                  controller: itemControllerUpdate.namaProdukController,
                 ),
                 const SizedBox(height: 8),
                 CustomTextBox(
@@ -76,7 +91,7 @@ class _AddProductPage extends State<AddProductPage> {
                     isCustomSize: true,
                     custHeight: 112,
                     isMultiline: true,
-                    controller: itemController.deskripsiProdukController),
+                    controller: itemControllerUpdate.deskripsiProdukController),
                 const SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -85,7 +100,7 @@ class _AddProductPage extends State<AddProductPage> {
                       child: CustomTextBox(
                         textboxDesc: "Jumlah",
                         textboxHint: "Masukkan Jumlah",
-                        controller: itemController.jumlahProdukController,
+                        controller: itemControllerUpdate.jumlahProdukController,
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -95,9 +110,9 @@ class _AddProductPage extends State<AddProductPage> {
                         textboxHint: "Pilih Satuan",
                         isDdFormField: true,
                         dropdownItems: dropdownSatuan,
-                        selectedItem: itemController.satuanJumlahProduk,
+                        selectedItem: itemControllerUpdate.satuanJumlahProduk,
                         onChanged: (value) {
-                          itemController.setSatuanJumlahProduk(value);
+                          itemControllerUpdate.setSatuanJumlahProduk(value);
                         },
                       ),
                     )
@@ -107,7 +122,7 @@ class _AddProductPage extends State<AddProductPage> {
                 CustomTextBox(
                   textboxDesc: "Harga (per kg)",
                   textboxHint: "Masukkan Harga per kg",
-                  controller: itemController.hargaPerKgController,
+                  controller: itemControllerUpdate.hargaPerKgController,
                 ),
               ],
             )),
@@ -117,9 +132,10 @@ class _AddProductPage extends State<AddProductPage> {
       floatingActionButton: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: CustomButton(
-          text: 'Tambah Produk',
+          text: 'Update Produk',
           onPressed: () async {
-            itemController.addItems(context, widget.scaffoldkey, widget.user);
+            itemControllerUpdate.updateExistingItems(
+                context, widget.scaffoldkey, widget.user);
             widget.onRefresh();
             Navigator.pop(context, true);
           },

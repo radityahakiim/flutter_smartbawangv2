@@ -220,6 +220,8 @@ class _InventoryPageState extends State<InventoryPage> {
                             voidCallback: () {
                               refresh();
                             },
+                            scaffoldkey: widget.scaffoldkey,
+                            user: widget.user,
                           );
                         },
                       );
