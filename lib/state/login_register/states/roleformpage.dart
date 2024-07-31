@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_smartbawangv2/db_local/auth/auth_controller.dart';
 import 'package:flutter_smartbawangv2/db_local/user_model.dart';
+import 'package:flutter_smartbawangv2/shared/capitalize_string.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
 import 'package:flutter_smartbawangv2/state/materials/button.dart';
 import 'package:flutter_smartbawangv2/state/materials/textbox.dart';
@@ -99,10 +100,10 @@ class _RoleFormPage extends State<RoleFormPage> {
     return Column(
       children: [
         const SizedBox(height: 40),
-        const Text(
-          'Daftar Pengepul',
+        Text(
+          'Daftar ${capitalize(authController.selectedRole!)}',
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.black,
             fontSize: 24,
             fontWeight: FontWeight.w700,
@@ -111,8 +112,8 @@ class _RoleFormPage extends State<RoleFormPage> {
         ),
         const SizedBox(height: 26),
         CustomTextBox(
-          textboxDesc: "Nama Warehouse",
-          textboxHint: "Masukkan nama Warehouse",
+          textboxDesc: "Nama Bisnis",
+          textboxHint: "Masukkan nama Bisnis",
           controller: authController.namaBisnisController,
         ),
         const SizedBox(height: 14),

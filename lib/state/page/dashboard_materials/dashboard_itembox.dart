@@ -4,15 +4,15 @@ import 'package:flutter_smartbawangv2/shared/theme.dart';
 class DashboardItemBox extends StatelessWidget {
   final String imageasset;
   final String title;
-  final String tanggal;
-  final String asalpanen;
+  final DateTime tanggal;
+  // final String asalpanen;
 
   const DashboardItemBox({
     Key? key,
     required this.imageasset,
     required this.title,
     required this.tanggal,
-    required this.asalpanen,
+    // required this.asalpanen,
   }) : super(key: key);
 
   @override
@@ -93,14 +93,14 @@ class DashboardItemBox extends StatelessWidget {
                               fontWeight: FontWeight.w400,
                             ),
                           ),
-                          Text(
-                            'Asal Panen:',
-                            style: TextStyle(
-                              color: AppTheme.passiveColor,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
+                          // Text(
+                          //   'Asal Panen:',
+                          //   style: TextStyle(
+                          //     color: AppTheme.passiveColor,
+                          //     fontSize: 10,
+                          //     fontWeight: FontWeight.w400,
+                          //   ),
+                          // ),
                         ],
                       ),
                       SizedBox(height: 6),
@@ -108,21 +108,21 @@ class DashboardItemBox extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            tanggal,
+                            '${tanggal.toLocal()}'.split(' ')[0],
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 10,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          Text(
-                            asalpanen,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
+                          // Text(
+                          //   asalpanen,
+                          //   style: TextStyle(
+                          //     color: Colors.black,
+                          //     fontSize: 10,
+                          //     fontWeight: FontWeight.w700,
+                          //   ),
+                          // ),
                         ],
                       ),
                     ],

@@ -157,7 +157,12 @@ class _MarketOverviewPage extends State<MarketOverviewPage> {
             //         harga: "Rp12.000")
             //   ],
             // ),
-            widget.role == 'pasar' ? DashboardBox() : SizedBox(),
+            widget.role == 'pasar'
+                ? DashboardBox(
+                    isOverview: true,
+                    id: widget.id,
+                  )
+                : SizedBox(),
             SizedBox(height: 8),
             Align(
               alignment: Alignment.centerLeft,

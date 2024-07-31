@@ -46,7 +46,9 @@ class _MainPageState extends State<_MainPage> {
           user: widget.user,
           scaffoldkey: widget.scaffoldkey,
         ),
-        StatisticPage(),
+        StatisticPage(
+          user: widget.user,
+        ),
         ProfileMenuPage(user: widget.user),
       ];
   @override

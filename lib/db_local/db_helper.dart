@@ -149,4 +149,92 @@ class DBHelper {
     final db = await database;
     return await db.delete('items', where: 'id = ?', whereArgs: [itemId]);
   }
+
+// Mendapatkan data harga pasar di sekitar
+  Future<Map<String, dynamic>> getPricesDataFromPasar(
+      Database db, String kota) async {
+    const String role = 'pasar';
+    final List<Map<String, dynamic>> result = await db.rawQuery('''
+  SELECT
+  MAX(items.price) as max_price,
+  MIN(items.price) as min_price,
+  AVG(items.price) as avg_price
+  FROM items
+  JOIN users ON items.user_id = users.id
+  WHERE users.role = ? AND users.kota = ?
+''', [role, kota]);
+
+    if (result.isNotEmpty) {
+      return result.first;
+    } else {
+      return {
+        'max_price': 0.0,
+        'min_price': 0.0,
+        'avg_price': 0.0,
+      };
+    }
+  }
+
+  // Menjumlahkan data stok di pasar sekitar
+  Future<int> sumQuantityOfItemsOwnedByPasar(Database db, String kota) async {
+    final String role = 'pasar';
+
+    final List<Map<String, dynamic>> result = await db.rawQuery('''
+SELECT SUM(items.quantity) as total_quantity
+FROM items
+JOIN users ON items.user_id = users.id
+WHERE users.role = ? AND users.kota = ?
+''', [role, kota]);
+    if (result.isNotEmpty && result.first['total_quantity'] != null) {
+      return result.first['total_quantity'] as int;
+    } else {
+      return 0;
+    }
+  }
+
+  // info harga berdasarkan user id
+
+  Future<Map<String, dynamic>> getPricesForUser(int userId) async {
+    final db = await database;
+
+    final List<Map<String, dynamic>> result = await db.rawQuery('''
+      SELECT 
+        MAX(price) as max_price,
+        MIN(price) as min_price,
+        AVG(price) as avg_price
+      FROM items
+      WHERE user_id = ?
+    ''', [userId]);
+
+    if (result.isNotEmpty) {
+      return {
+        'max_price': result.first['max_price'] ?? 0.0,
+        'min_price': result.first['min_price'] ?? 0.0,
+        'avg_price': result.first['avg_price'] ?? 0.0,
+      };
+    } else {
+      return {
+        'max_price': 0.0,
+        'min_price': 0.0,
+        'avg_price': 0.0,
+      };
+    }
+  }
+
+// jumlahkan quantity berdasarkan user id
+  Future<int> sumQuantityForUser(int userId) async {
+    final db = await database;
+
+    final List<Map<String, dynamic>> result = await db.rawQuery('''
+      SELECT SUM(quantity) as total_quantity
+      FROM items
+      WHERE user_id = ?
+    ''', [userId]);
+
+    if (result.isNotEmpty && result.first['total_quantity'] != null) {
+      return result.first['total_quantity'] as int;
+    } else {
+      return 0;
+    }
+  }
 }

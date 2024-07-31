@@ -4,9 +4,10 @@ import 'package:flutter_smartbawangv2/db_local/user_model.dart';
 import 'package:flutter_smartbawangv2/shared/capitalize_string.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
 import 'package:flutter_smartbawangv2/state/materials/searchbox.dart';
+import 'package:flutter_smartbawangv2/state/materials/textbox.dart';
 import 'package:flutter_smartbawangv2/state/page/cari_user/cariuser_materials/kota_itembox.dart';
-import 'package:flutter_smartbawangv2/state/page/cari_user/cariuser_materials/userpage_itembox.dart';
-import 'package:flutter_smartbawangv2/state/page/cari_user/market_overview_page.dart';
+// import 'package:flutter_smartbawangv2/state/page/cari_user/cariuser_materials/userpage_itembox.dart';
+// import 'package:flutter_smartbawangv2/state/page/cari_user/market_overview_page.dart';
 
 class CariUser extends StatefulWidget {
   final User user;
@@ -34,6 +35,12 @@ class _CariUser extends State<CariUser> {
     });
   }
 
+  final List<Map<String, String>> dropdownItems = [
+    {"display": "Petani", "value": "petani"},
+    {"display": "Pasar", "value": "pasar"},
+    {"display": "Pengepul", "value": "pengepul"},
+  ];
+
   String secondTitle(String role) {
     switch (role) {
       case 'pasar':
@@ -48,7 +55,7 @@ class _CariUser extends State<CariUser> {
 
   @override
   Widget build(BuildContext context) {
-    String capitalizedRole = capitalize(widget.role);
+    String capitalizedRole = capitalize(role);
 
     return Scaffold(
       appBar: AppBar(
@@ -129,6 +136,16 @@ class _CariUser extends State<CariUser> {
             //     ),
             //   ],
             // ),
+            CustomTextBox(
+              textboxDesc: '',
+              textboxHint: 'Cari Pasar/Pengepul/Petani',
+              isDdFormField: true,
+              dropdownItems: dropdownItems,
+              selectedItem: widget.role,
+              onChanged: (value) {
+                updateRole(value!);
+              },
+            ),
             const SizedBox(height: 8),
             Align(
               alignment: Alignment.centerLeft,

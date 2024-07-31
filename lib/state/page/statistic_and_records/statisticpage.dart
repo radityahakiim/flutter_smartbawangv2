@@ -1,11 +1,14 @@
 /// Halaman untuk Statistik
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_smartbawangv2/db_local/user_model.dart';
+import 'package:flutter_smartbawangv2/shared/capitalize_string.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
 import 'package:flutter_smartbawangv2/state/page/statistic_and_records/statisticpage_materials/record_supply_item.dart';
 
 class StatisticPage extends StatefulWidget {
-  const StatisticPage({super.key});
+  final User user;
+  const StatisticPage({super.key, required this.user});
 
   State<StatisticPage> createState() => _StatisticPage();
 }
@@ -24,7 +27,7 @@ class _StatisticPage extends State<StatisticPage> {
           ),
         ),
         title: Text(
-          "Statistik Pengepul",
+          "Statistik ${capitalize(widget.user.role)}",
           style: TextStyle(
             color: Colors.white,
             fontSize: 24,

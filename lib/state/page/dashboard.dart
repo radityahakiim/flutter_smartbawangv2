@@ -2,6 +2,8 @@
 // Dashboard ini akan memantau pasar di daerah sekitar
 
 import 'package:flutter/material.dart';
+import 'package:flutter_smartbawangv2/db_local/item/item_service.dart';
+import 'package:flutter_smartbawangv2/db_local/item_model.dart';
 import 'package:flutter_smartbawangv2/db_local/user_model.dart';
 import 'package:flutter_smartbawangv2/shared/AppScrollBehaviour.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
@@ -10,6 +12,8 @@ import 'package:flutter_smartbawangv2/state/page/cari_user/cari_user.dart';
 import 'package:flutter_smartbawangv2/state/page/dashboard_materials/dashboard_button.dart';
 import 'package:flutter_smartbawangv2/state/page/dashboard_materials/dashboard_box.dart';
 import 'package:flutter_smartbawangv2/state/page/dashboard_materials/dashboard_itembox.dart';
+// import 'package:flutter_smartbawangv2/state/page/dashboard_materials/dashboard_itembox.dart';
+import 'package:flutter_smartbawangv2/state/page/market_inventory_materials/market_inventory_itembox.dart';
 import 'package:provider/provider.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -21,6 +25,24 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPage extends State<DashboardPage> {
+  ItemService itemService = ItemService();
+  late Future<List<Item>> _futureItems;
+  void loadItems() {
+    _futureItems = itemService.getItemsByUser(widget.user.id!);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadItems();
+  }
+
+  void refresh() {
+    setState(() {
+      loadItems();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     String role = widget.user.role;
@@ -157,7 +179,7 @@ class _DashboardPage extends State<DashboardPage> {
                     ),
                   ),
                   SizedBox(height: 10),
-                  DashboardBox(),
+                  DashboardBox(user: widget.user),
                   SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -229,7 +251,11 @@ class _DashboardPage extends State<DashboardPage> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Provider.of<PageIndexProvider>(context,
+                                    listen: false)
+                                .changeIndex(1);
+                          },
                           child: Text(
                             'Selengkapnya',
                             textAlign: TextAlign.right,
@@ -247,40 +273,45 @@ class _DashboardPage extends State<DashboardPage> {
                   ScrollConfiguration(
                       behavior: AppScrollBehaviour(),
                       child: Container(
-                        height: 128,
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8),
-                              child: DashboardItemBox(
-                                imageasset: 'assets/bawang.png',
-                                title: 'Bawang Sembrani',
-                                tanggal: '31 Dec 2024',
-                                asalpanen: 'Desa Petani A',
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8),
-                              child: DashboardItemBox(
-                                imageasset: 'assets/bawang.png',
-                                title: 'Bawang Sembrani',
-                                tanggal: '31 Dec 2024',
-                                asalpanen: 'Desa Petani A',
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8),
-                              child: DashboardItemBox(
-                                imageasset: 'assets/bawang.png',
-                                title: 'Bawang Sembrani',
-                                tanggal: '31 Dec 2024',
-                                asalpanen: 'Desa Petani A',
-                              ),
-                            ),
-                          ],
-                        ),
-                      ))
+                          height: 128,
+                          child: FutureBuilder(
+                              future: _futureItems,
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                } else if (snapshot.hasError) {
+                                  return Center(
+                                      child: Text(
+                                          'Terjadi Kesalahan: ${snapshot.error}'));
+                                } else if (!snapshot.hasData ||
+                                    snapshot.data!.isEmpty) {
+                                  return const Center(
+                                      child: Text('No items found'));
+                                } else {
+                                  var items = snapshot.data!;
+                                  return GridView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    shrinkWrap: true,
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 1,
+                                            crossAxisSpacing: 16,
+                                            mainAxisSpacing: 16),
+                                    itemCount: items.length,
+                                    itemBuilder: (context, index) {
+                                      GlobalKey<ScaffoldMessengerState>
+                                          scaffoldKey = GlobalKey();
+                                      var item = items[index];
+                                      return DashboardItemBox(
+                                          imageasset: 'assets/bawang.png',
+                                          title: item.itemName,
+                                          tanggal: item.tanggalPanen);
+                                    },
+                                  );
+                                }
+                              })))
                 ]),
               ),
             )));

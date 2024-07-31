@@ -1,14 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_smartbawangv2/db_local/dashboard_service.dart';
+import 'package:flutter_smartbawangv2/db_local/db_helper.dart';
+import 'package:flutter_smartbawangv2/db_local/user_model.dart';
+import 'package:flutter_smartbawangv2/shared/rupiah_convert.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
 
 class DashboardBox extends StatefulWidget {
-  const DashboardBox({super.key});
+  final User? user;
+  final bool? isOverview;
+  final int? id;
+  const DashboardBox({super.key, this.user, this.isOverview = false, this.id});
 
   @override
   State<DashboardBox> createState() => _DashboardBox();
 }
 
 class _DashboardBox extends State<DashboardBox> {
+  int _totalQuantity = 0;
+  double _maxPrice = 0.0;
+  double _minPrice = 0.0;
+  double _avgPrice = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchPricesandQt();
+  }
+
+  Future<void> _fetchPricesandQt() async {
+    final db = await DBHelper.db.database;
+    final DashboardService dashboardService = DashboardService();
+    late final String targetKota;
+    late final Map<String, dynamic> prices;
+    late final int totalQuantity;
+    if (widget.isOverview == false) {
+      if (widget.user!.role == 'pengepul' || widget.user!.role == 'petani') {
+        targetKota = widget.user!.kota;
+        prices = await dashboardService.getPricesFromPasar(db, targetKota);
+        totalQuantity =
+            await dashboardService.sumQtOfItemsOwnedByPasar(db, targetKota);
+      } else {
+        prices = await dashboardService.getPriceDataForUser(widget.user!.id!);
+        totalQuantity = await dashboardService.sumQtForUser(widget.user!.id!);
+      }
+    } else {
+      prices = await dashboardService.getPriceDataForUser(widget.id!);
+      totalQuantity = await dashboardService.sumQtForUser(widget.id!);
+    }
+    setState(() {
+      _totalQuantity = totalQuantity;
+      _maxPrice = prices['max_price'] ?? 0.0;
+      _minPrice = prices['min_price'] ?? 0.0;
+      _avgPrice = prices['avg_price'] ?? 0.0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -40,7 +86,7 @@ class _DashboardBox extends State<DashboardBox> {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                'Rp12.000/kg',
+                '${formatRupiah(_avgPrice)}/kg',
                 style: TextStyle(
                   color: AppTheme.primaryColor,
                   fontSize: 24,
@@ -63,7 +109,7 @@ class _DashboardBox extends State<DashboardBox> {
                   ),
                 ),
                 Text(
-                  'Rp10.000',
+                  formatRupiah(_avgPrice),
                   textAlign: TextAlign.right,
                   style: TextStyle(
                     color: Colors.black,
@@ -89,7 +135,7 @@ class _DashboardBox extends State<DashboardBox> {
                   ),
                 ),
                 Text(
-                  'Rp13.500',
+                  formatRupiah(_maxPrice),
                   textAlign: TextAlign.right,
                   style: TextStyle(
                     color: Colors.black,
@@ -115,7 +161,7 @@ class _DashboardBox extends State<DashboardBox> {
                   ),
                 ),
                 Text(
-                  'Rp8.000',
+                  formatRupiah(_minPrice),
                   textAlign: TextAlign.right,
                   style: TextStyle(
                     color: Colors.black,
@@ -173,7 +219,7 @@ class _DashboardBox extends State<DashboardBox> {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "24.000kg",
+                            "0kg",
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 12,
@@ -185,7 +231,7 @@ class _DashboardBox extends State<DashboardBox> {
                         Align(
                           alignment: Alignment.centerRight,
                           child: Text(
-                            "12.000Kg",
+                            "${_totalQuantity.toString()}kg",
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 12,

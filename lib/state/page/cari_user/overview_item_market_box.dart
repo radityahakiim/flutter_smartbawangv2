@@ -3,7 +3,7 @@ import 'package:flutter_smartbawangv2/db_local/item_model.dart';
 import 'package:flutter_smartbawangv2/db_local/user_model.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
 import 'package:flutter_smartbawangv2/state/page/cari_user/product_page_overview.dart';
-import 'package:flutter_smartbawangv2/state/page/inventory/product_page.dart';
+// import 'package:flutter_smartbawangv2/state/page/inventory/product_page.dart';
 // import 'package:flutter_smartbawangv2/state/page/inventory/product_page_test.dart';
 import 'package:flutter_smartbawangv2/shared/rupiah_convert.dart';
 
