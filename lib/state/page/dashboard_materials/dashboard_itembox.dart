@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_smartbawangv2/db_local/item_model.dart';
+import 'package:flutter_smartbawangv2/db_local/user_model.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
+import 'package:flutter_smartbawangv2/state/page/inventory/product_page.dart';
 
 class DashboardItemBox extends StatelessWidget {
+  final Item item;
   final String imageasset;
   final String title;
   final DateTime tanggal;
-  // final String asalpanen;
+  final User user;
+  final VoidCallback voidCallback;
+  final GlobalKey<ScaffoldMessengerState> scaffoldkey;
 
   const DashboardItemBox({
     Key? key,
     required this.imageasset,
     required this.title,
     required this.tanggal,
-    // required this.asalpanen,
+    required this.item,
+    required this.voidCallback,
+    required this.user,
+    required this.scaffoldkey,
   }) : super(key: key);
 
   @override
@@ -33,7 +42,17 @@ class DashboardItemBox extends StatelessWidget {
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: ((context) => InventoryProductPage(
+                            item: item,
+                            onRefresh: voidCallback,
+                            user: user,
+                            scaffoldKey: scaffoldkey,
+                          ))));
+            },
             borderRadius: BorderRadius.circular(8),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -93,14 +112,14 @@ class DashboardItemBox extends StatelessWidget {
                               fontWeight: FontWeight.w400,
                             ),
                           ),
-                          // Text(
-                          //   'Asal Panen:',
-                          //   style: TextStyle(
-                          //     color: AppTheme.passiveColor,
-                          //     fontSize: 10,
-                          //     fontWeight: FontWeight.w400,
-                          //   ),
-                          // ),
+                          Text(
+                            'Asal Panen:',
+                            style: TextStyle(
+                              color: AppTheme.passiveColor,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
                         ],
                       ),
                       SizedBox(height: 6),
@@ -115,14 +134,14 @@ class DashboardItemBox extends StatelessWidget {
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          // Text(
-                          //   asalpanen,
-                          //   style: TextStyle(
-                          //     color: Colors.black,
-                          //     fontSize: 10,
-                          //     fontWeight: FontWeight.w700,
-                          //   ),
-                          // ),
+                          Text(
+                            'Kota A',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                         ],
                       ),
                     ],

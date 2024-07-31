@@ -1,10 +1,10 @@
 /// Halaman untuk Statistik
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_smartbawangv2/db_local/user_model.dart';
 import 'package:flutter_smartbawangv2/shared/capitalize_string.dart';
 import 'package:flutter_smartbawangv2/shared/theme.dart';
 import 'package:flutter_smartbawangv2/state/page/statistic_and_records/statisticpage_materials/record_supply_item.dart';
+import 'package:flutter_smartbawangv2/state/page/statistic_and_records/statisticpage_materials/statistic_box.dart';
 
 class StatisticPage extends StatefulWidget {
   final User user;
@@ -41,88 +41,11 @@ class _StatisticPage extends State<StatisticPage> {
       body: Container(
         padding: EdgeInsets.all(8),
         child: Column(children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'Diagram Stock Bawang (Sawah Daerah A)',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                height: 0,
-              ),
-            ),
-          ),
-          SizedBox(
+          StatisticBox(user: widget.user),
+          const SizedBox(
             height: 8,
           ),
-          Container(
-            height: 144,
-            padding:
-                const EdgeInsets.only(top: 8, left: 4, right: 3, bottom: 8),
-            clipBehavior: Clip.antiAlias,
-            decoration: ShapeDecoration(
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                side: BorderSide(
-                  width: 1,
-                  color: Colors.black.withOpacity(0.20000000298023224),
-                ),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              shadows: [
-                BoxShadow(
-                  color: Color(0x3F000000),
-                  blurRadius: 4,
-                  offset: Offset(0, 4),
-                  spreadRadius: 0,
-                )
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 8,
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'Diagram Stock Bawang (Pasar Daerah A)',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                height: 0,
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 8,
-          ),
-          Container(
-            height: 144,
-            padding:
-                const EdgeInsets.only(top: 8, left: 4, right: 3, bottom: 8),
-            clipBehavior: Clip.antiAlias,
-            decoration: ShapeDecoration(
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                side: BorderSide(
-                  width: 1,
-                  color: Colors.black.withOpacity(0.20000000298023224),
-                ),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              shadows: [
-                BoxShadow(
-                  color: Color(0x3F000000),
-                  blurRadius: 4,
-                  offset: Offset(0, 4),
-                  spreadRadius: 0,
-                )
-              ],
-            ),
-          ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Text(
               'Record Supply',

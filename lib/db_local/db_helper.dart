@@ -237,4 +237,23 @@ WHERE users.role = ? AND users.kota = ?
       return 0;
     }
   }
+
+  Future<List<Map<String, dynamic>>> fetchWeeklyStatisticPetani(
+      int userId) async {
+    final db = await database;
+    DateTime now = DateTime.now();
+    DateTime lastSunday = now.subtract(Duration(days: now.weekday));
+
+    final List<Map<String, dynamic>> maps = await db.rawQuery('''
+      SELECT 
+        tanggal_panen,
+        SUM(quantity) as total_quantity
+      FROM items
+      WHERE petani_id = ? AND 
+            DATE(tanggal_panen) BETWEEN DATE(?) AND DATE(?)
+      GROUP BY tanggal_panen
+    ''', [userId, lastSunday.toIso8601String(), now.toIso8601String()]);
+
+    return maps;
+  }
 }

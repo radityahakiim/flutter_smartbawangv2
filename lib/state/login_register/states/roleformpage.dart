@@ -75,6 +75,7 @@ class _RoleFormPage extends State<RoleFormPage> {
       } else {
         User? user = await controller.register(context, widget.scaffoldKey);
         if (user != null) {
+          controller.clearControllers();
           widget.onNext();
         } else {
           widget.ifFail();

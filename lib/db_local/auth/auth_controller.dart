@@ -51,6 +51,18 @@ class AuthController with ChangeNotifier {
     return _selectedRole != null && _selectedRole!.isNotEmpty;
   }
 
+  // Clear controllers
+  void clearControllers() {
+    namaLengkapController.clear();
+    namaBisnisController.clear();
+    alamatBisnisController.clear();
+    emailController.clear();
+    nomorHpController.clear();
+    passwordController.clear();
+    loginEmailPhoneController.clear();
+    loginPasswordController.clear();
+  }
+
   // Auth section
 
   Future<User?> register(BuildContext context,
@@ -88,15 +100,4 @@ class AuthController with ChangeNotifier {
   //   loginEmailPhoneController.clear();
   //   loginPasswordController.clear();
   // }
-
-  void disposeControllers() {
-    namaLengkapController.dispose();
-    namaBisnisController.dispose();
-    alamatBisnisController.dispose();
-    emailController.dispose();
-    nomorHpController.dispose();
-    passwordController.dispose();
-    loginEmailPhoneController.dispose();
-    loginPasswordController.dispose();
-  }
 }

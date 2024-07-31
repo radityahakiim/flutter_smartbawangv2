@@ -13,12 +13,13 @@ import 'package:flutter_smartbawangv2/state/page/dashboard_materials/dashboard_b
 import 'package:flutter_smartbawangv2/state/page/dashboard_materials/dashboard_box.dart';
 import 'package:flutter_smartbawangv2/state/page/dashboard_materials/dashboard_itembox.dart';
 // import 'package:flutter_smartbawangv2/state/page/dashboard_materials/dashboard_itembox.dart';
-import 'package:flutter_smartbawangv2/state/page/market_inventory_materials/market_inventory_itembox.dart';
+// import 'package:flutter_smartbawangv2/state/page/market_inventory_materials/market_inventory_itembox.dart';
 import 'package:provider/provider.dart';
 
 class DashboardPage extends StatefulWidget {
   final User user;
-  const DashboardPage({super.key, required this.user});
+  final GlobalKey<ScaffoldMessengerState>? scaffoldKey;
+  const DashboardPage({super.key, required this.user, this.scaffoldKey});
 
   @override
   State<DashboardPage> createState() => _DashboardPage();
@@ -301,13 +302,18 @@ class _DashboardPage extends State<DashboardPage> {
                                             mainAxisSpacing: 16),
                                     itemCount: items.length,
                                     itemBuilder: (context, index) {
-                                      GlobalKey<ScaffoldMessengerState>
-                                          scaffoldKey = GlobalKey();
                                       var item = items[index];
                                       return DashboardItemBox(
-                                          imageasset: 'assets/bawang.png',
-                                          title: item.itemName,
-                                          tanggal: item.tanggalPanen);
+                                        imageasset: 'assets/bawang.png',
+                                        title: item.itemName,
+                                        tanggal: item.tanggalPanen,
+                                        item: item,
+                                        voidCallback: () {
+                                          refresh();
+                                        },
+                                        user: widget.user,
+                                        scaffoldkey: widget.scaffoldKey!,
+                                      );
                                     },
                                   );
                                 }

@@ -41,6 +41,7 @@ class _MainPageState extends State<_MainPage> {
   List<Widget> get pages => [
         DashboardPage(
           user: widget.user,
+          scaffoldKey: widget.scaffoldkey,
         ),
         InventoryPage(
           user: widget.user,
